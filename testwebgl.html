@@ -12,15 +12,15 @@
   
 	var renderer, scene, camera, mesh;
 	init();
-	//animate();
+	animate();
 
 	//pour bouger
-	/*function animate(){
+	function animate(){
 		requestAnimationFrame( animate );
 		mesh.rotation.x += 0.0001;
 		mesh.rotation.y += 0.01;
 		renderer.render( scene, camera );
-	}*/
+	}
 
 	function init(){
 		//moteur
@@ -35,25 +35,36 @@
 
 		//camera
 		camera = new THREE.PerspectiveCamera(50, 1, 1, 10000 );
-		camera.position.set(0, 0, 500);
+		camera.position.set(0, 0, 50);
 		scene.add(camera);
 		
-		//sphere
 		/*var geometry = new THREE.SphereGeometry( 200, 30, 30 );
-		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: true} );
-		mesh = new THREE.Mesh( geometry, material );
-		scene.add( mesh );*/
-		
-		//Cube
-		var geometry = new THREE.CubeGeometry( 200, 200, 200 );
-		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: false } );
-		mesh = new THREE.Mesh( geometry, material );
-		scene.add( mesh );
-		
-		//lumiere??   [marche pas?]
-		var lumiere = new THREE.DirectionalLight( 0xff00ff, 1.0 );
-		lumiere.position.set( 0, 0, 400 );
-		scene.add( lumiere );
+		var material = new THREE.MeshBasicMaterial( { color: 0xE80C7A, wireframe: true} );
+		meshS = new THREE.Mesh( geometry, material );
+		geometry = new THREE.BoxGeometry( 100, 100, 100);
+		material = new THREE.MeshBasicMaterial( {color: 0xffffff});
+		meshC = new THREE.Mesh( geometry, material );
+		scene.add( meshS );
+		scene.add( meshC);
+		meshC.rotation.x += 1;
+    meshC.rotation.y += 1;*/
+
+	var x = 0, y = 0;
+
+	var heartShape = new THREE.Shape();
+
+	heartShape.moveTo( x + 5, y + 5 );
+	heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
+	heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
+	heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
+	heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
+	heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
+	heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+
+	var geometry = new THREE.ShapeGeometry( heartShape );
+	var material = new THREE.MeshBasicMaterial( { color: 0xFF0000 } );
+	var mesh = new THREE.Mesh( geometry, material ) ;
+	scene.add( mesh );
 
 		//rendu
 		renderer.render( scene, camera );
