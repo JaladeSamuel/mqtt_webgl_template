@@ -89,11 +89,11 @@
 			
 			client.onMessageArrived = function (message) {
 			console.log("Message arrive: " + message.payloadString);
-			mesh.material.color.set(message.payloadString);//change la couleur
 			console.log("Topic:     " + message.destinationName);
-			console.log("QoS:       " + message.qos);
-			console.log("Retained:  " + message.retained);
-			console.log("Duplicate: " + message.duplicate);
+			mesh.material.color.set(message.payloadString);//change la couleur
+			//console.log("QoS:       " + message.qos);
+			//console.log("Retained:  " + message.retained);
+			//console.log("Duplicate: " + message.duplicate);
 			}
 
 			
