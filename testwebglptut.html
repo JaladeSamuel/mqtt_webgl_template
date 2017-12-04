@@ -2,56 +2,101 @@
 <html>
   <head>
     <title>TESTWEBGL</title>
+	<style>
+	    body {
+		width: 35em;
+		margin: 0 auto;
+		font-family: Tahoma, Verdana, Arial, sans-serif;
+	    }
+	</style>
     <meta charset="utf-8">
   </head>
 <body>
     
-  <div id="container"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"type="text/javascript"></script>
   <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-  <script type="text/javascript">
-  
-	var renderer, scene, camera, mesh;
-	init();
-	animate();
+
+  <div id="logger"></div>
+	<h1>Bienvenue</h1>
+	<p>PTUT IUT BLAGNAC</p>
+	<a href="./">Reour page d'accueil</a></br>
+	<p>Merci</p>
+	<br><br><br>
+	<p> Pour changer la couleur du cube envoyer un message avec le topic "sampublie" (green;red;white...)</p><br>
+	<p>Vous pouvez également voir les messages qui sont publiés depuis la console.</p>
+
+
+
+  <div id="container"></div>
 	
-	function init(){
-		renderer = new THREE.WebGLRenderer();
 
-		renderer.setSize( 700, 700 );
-		document.getElementById('container').appendChild(renderer.domElement);
+<script type="text/javascript">
 
-		scene = new THREE.Scene();
+			//CUBE
+				var renderer, scene, camera, mesh;
+				init("red");
+				
+				animate();
+				
+				function init(col){
+					renderer = new THREE.WebGLRenderer();
 
-		camera = new THREE.PerspectiveCamera(50, 1, 1, 10000 );
-		camera.position.set(0, 0, 500);
-		scene.add(camera);
-		
-		var geometry = new THREE.BoxGeometry( 50, 50, 50);
-		var material = new THREE.MeshBasicMaterial( {color: "red", wireframe:false});
-		mesh = new THREE.Mesh( geometry, material );
-		mesh.rotation.x += 1;
-		mesh.rotation.y += 1;
-		scene.add( mesh );
-		
-		var geometry = new THREE.SphereGeometry( 200, 32, 32);
-		var material = new THREE.MeshBasicMaterial( {color: 0xffffff, wireframe:true});
-		mesh2 = new THREE.Mesh( geometry, material );
-		scene.add( mesh2 );
-		
-		
-		
-		renderer.render( scene, camera );
-	}
-	function animate(){
-		requestAnimationFrame( animate );
-		mesh2.rotation.x += 0.01;
-		mesh2.rotation.y += 0.01;
-		mesh.rotation.x -= 0.01;
-		mesh.rotation.y -= 0.01;
-		renderer.render( scene, camera );
-	}
+					renderer.setSize( 700, 700 );
+					document.getElementById('container').appendChild(renderer.domElement);
 
+					scene = new THREE.Scene();
 
-  </script>
+					camera = new THREE.PerspectiveCamera(50, 1, 1, 10000 );
+					camera.position.set(0, 0, 500);
+					scene.add(camera);
+					
+					var geometry = new THREE.BoxGeometry( 50, 50, 50);
+					//var material = new THREE.MeshBasicMaterial( {color: 0xFF0000, wireframe:true});
+					var material = new THREE.MeshBasicMaterial( {color: col, wireframe:true});
+					mesh = new THREE.Mesh( geometry, material );
+					
+					scene.add( mesh );
+	
+					renderer.render( scene, camera );
+					
+				}
+
+				function animate(){
+					requestAnimationFrame( animate );
+					mesh.rotation.x += 0.01;
+					mesh.rotation.y += 0.01;
+					renderer.render( scene, camera );
+				}	
+			
+
+			//MQTT	
+			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"samrecois");
+
+		
+			client.onConnectionLost = function (responseObject){
+				console.log("Connection perdue: "+responseObject.errorMessage);
+			}
+
+			
+
+			
+			function onConnect(){
+				console.log("Connecte");
+				client.subscribe("sampublie");
+			}
+
+			client.connect({onSuccess: onConnect});
+			
+			client.onMessageArrived = function (message) {
+			console.log("Message arrive: " + message.payloadString);
+			mesh.material.color.set(message.payloadString);//change la couleur
+			console.log("Topic:     " + message.destinationName);
+			console.log("QoS:       " + message.qos);
+			console.log("Retained:  " + message.retained);
+			console.log("Duplicate: " + message.duplicate);
+			}
+
+			
+    </script>
 </body>
 </html>
