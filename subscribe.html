@@ -4,7 +4,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
     <script type="text/javascript">
 		
-			client = new Paho.MQTT.Client("archibald.snootlab.info", Number(2532),"clientId");
+			client = new Paho.MQTT.Client("archibald.snootlab.info", Number(2533),"clientId");
 
 		
 			client.onConnectionLost = function (responseObject){
@@ -33,5 +33,5 @@
 			
     </script>
 </head>
-<body onload="init();"><div id="logger"></div></body>
+<body><div id="logger"></div></body>
 </html>
