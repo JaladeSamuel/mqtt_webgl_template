@@ -9,11 +9,23 @@
 		font-family: Tahoma, Verdana, Arial, sans-serif;
 	    }
 	</style>
-
+	 <div id="container"></div>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"></meta>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"type="text/javascript"></script>
 	<script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-    <script type="text/javascript">
+</head>
+
+<body>
+	<div id="logger"></div>
+	<h1>Bienvenue sur la page web du projet webGL</h1>
+	<p>PTUT IUT BLAGNAC</p>
+	<p>TEST DEPUIS VM, pour voir les données mqtt ouvrir la console</p>
+	<a href='https://github.com/NICOLASGON/mqtt_webgl_template'>gitHub du projet</a>
+	<a href="./testwebglptut.html">Lien vers un test de webGl</a></br>
+	<p>Merci</p>
+	<div id="container"></div>
+	
+	<script type="text/javascript">
 		
 			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"samrecois");
 
@@ -82,15 +94,6 @@
 
 			
     </script>
-</head>
-<body>
-	<div id="logger"></div>
-	<h1>Bienvenue sur la page web du projet webGL</h1>
-	<p>PTUT IUT BLAGNAC</p>
-	<p>TEST DEPUIS VM, pour voir les données mqtt ouvrir la console</p>
-	<a href='https://github.com/NICOLASGON/mqtt_webgl_template'>gitHub du projet</a>
-	<a href="./testwebglptut.html">Lien vers un test de webGl</a></br>
-	<p>Merci</p>
 
 </body>
 </html>
