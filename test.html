@@ -11,6 +11,18 @@
     <div id="container" style="width: 640px; height: 480px; background-color: #000000;">
     </div>
     <script type="text/javascript">
+    TERIABLE.prototype._getBasicSettings = function(){
+	this._block_size_x = parseInt($('#block-size-y').val()) || 100;
+	this._block_size_y = parseInt($('#block-size-y').val()) || 100;
+	this._block_detail = parseInt($('#block-detail').val()) || 120;
+	
+	this._region_size_x = parseInt($('#region-size-x').val()) || 5;
+	this._region_size_y = parseInt($('#region-size-y').val()) || 5;
+	
+	this._current_x = 0;
+	this._current_y = 0;
+	return;	
+	}
 	var renderer, scene, camera, mesh, ratio, container;
 	var intRotation=0;
 	var objCube;
@@ -46,7 +58,8 @@
 		/* Créé un cube avec un matériau de couleur blanche. */
 		//createCube(800,'#FFFFFF',0,0,0,'espace.jpg');
 		createSphere(400,'#FFFFFF',0,0,0,null);
-
+		var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.jpg') });
+		tabCube[0].material = material;
 
 		//window.addEventListener( 'resize', onWindowResize, false );
 		renderer.render( scene, camera );	
@@ -104,12 +117,12 @@
 	    requestAnimationFrame(update);
 	    /* Effectue une rotation du cube sur les 3 axes X, Y et Z. */
 	    intRotation = 0.01;
-	    for(i=0;i<tabCube.length;i++){
+	    //for(i=0;i<tabCube.length;i++){
 	    	 tabCube[i].rotation.x += intRotation;
 	    	 //tabCube[i].rotation.y += intRotation;
 	    	 tabCube[i].rotation.z += intRotation;
 
-	    }
+	   // }
 	   
 	    
 	    /* Effectue le rendu de la scène. */
