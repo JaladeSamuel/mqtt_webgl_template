@@ -1,59 +1,157 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<title>Three JS</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-</head>
-<body>
-<div id="logger"></div>
-<div id="container"></div>
-<script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
-	<script type="text/javascript">
-	var renderer, scene, camera, mesh;
+<html>
+  <head>
+    <title>WebGL test</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"type="text/javascript"></script>
+  </head>
+  <body style="background-color: #000000;">
+    <div id="container" style="width: 640px; height: 480px; background-color: #000000;">
+    </div>
+    <script type="text/javascript">
+	var renderer, scene, camera, mesh, ratio, container;
+	var intRotation=0;
+	var objCube;
+	var tabCube=new Array();
+
 	init();
-	animate();
+	update();
+
 	function init(){
-		var ratio = window.innerWidth / window.innerHeight;
+		/* Créé la scène. */
+		scene = new THREE.Scene();
+
+		/* Ratio de la taille de la fenêtre */
+		ratio = window.innerWidth / window.innerHeight;
+
+		 /* Créé la caméra. */
+		camera = new THREE.PerspectiveCamera(75, ratio, 1, 2000 );
+		camera.position.set(0, 0, 1500);
+		scene.add(camera);
+
+		/* Créé le moteur de rendu. */
 		renderer = new THREE.WebGLRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
-		document.getElementById('container').appendChild(renderer.domElement);
-		scene = new THREE.Scene();
-		camera = new THREE.PerspectiveCamera(75, ratio, 1, 1000 );
-		camera.position.set(0, 0, 100);
-		scene.add(camera);
-		mesh=createCube(50,0xFFFFFF,1,1);
-		window.addEventListener( 'resize', onWindowResize, false );
-		renderer.render( scene, camera );				
-	}
-	
-	function onWindowResize() {
 
+		
+		/* Insertion du moteur de rendu dans le DOM. */
+		container = $('#container');
+		container.append(renderer.domElement);
+		
+		/* Créé la lumière */
+		createLight(0,500,1800,'#FFFFFF');
+
+		/* Créé un cube avec un matériau de couleur blanche. */
+		//createCube(800,'#FFFFFF',0,0,0,'espace.jpg');
+		createSphere(400,'#FFFFFF',0,0,0,null);
+		 
+		
+		//window.addEventListener( 'resize', onWindowResize, false );
+		renderer.render( scene, camera );	
+
+	}
+
+	/* Fonction d'adaptation au changement de taille de la fenêtre. */
+	function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
+	}
 
+	/* Créé une lumière. */
+	function createLight(X,Y,Z,color){
+		objLight = new THREE.PointLight(color);
+		objLight.position.set(X, Y, Z);
+		scene.add(objLight);
 	}
-	
-	function createCube(size,colors,rotationX,rotationY){
-			var geometry = new THREE.BoxGeometry( size, size, size);
-			var material = new THREE.MeshBasicMaterial( {color:colors});
-			mesh = new THREE.Mesh( geometry, material );
-			mesh.rotation.x += rotationX;
-			mesh.rotation.y += rotationY;
-			scene.add( mesh );
-			return mesh;
+
+	/* Créé un cube */
+	function createCube(size,colors,posX, posY, posZ, material){
+		if(material==null){
+			objCube = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ color: colors }));
+		}else{
+			objCube = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
+		}
+			tabCube.push(objCube);
+		  	objCube.position.set(posX, posY, posZ);
+		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
+		 	scene.add(objCube);
 	}
-	
+
+	function createSphere(size,colors,posX, posY, posZ, material){
+		if(material==null){
+			objSphere = new THREE.Mesh(new THREE.SphereGeometry(size, size, size), new THREE.MeshLambertMaterial({ color: colors }));
+		}else{
+			objSphere = new THREE.Mesh(new THREE.SphereGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
+		}
+			tabCube.push(objSphere);
+		  	objSphere.position.set(posX, posY, posZ);
+		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
+		 	scene.add(objSphere);
+	}
+
+
+
+	/* Détruit un cube */
 	function deleteCube(){
-		createCube(500,0xFFFFFF,1,1);
+		//A FAIRE
 	}
-	function animate(){
-					requestAnimationFrame( animate );
-					mesh.rotation.x += 0.01;
-					mesh.rotation.y += 0.01;
-					renderer.render( scene, camera );
-	}	
+
+	/* Fonction permettant de mettre à jour les éléments de la scène. = ROTATION*/
+	function update() {
+	    requestAnimationFrame(update);
+	    /* Effectue une rotation du cube sur les 3 axes X, Y et Z. */
+	    intRotation = 0.01;
+	    for(i=0;i<tabCube.length;i++){
+	    	 tabCube[i].rotation.x += intRotation;
+	    	 //tabCube[i].rotation.y += intRotation;
+	    	 tabCube[i].rotation.z += intRotation;
+
+	    }
+	   
+	    
+	    /* Effectue le rendu de la scène. */
+	    renderer.render(scene, camera);   
+	}
+
+	//MQTT	
+			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"samrecois");
+
+		
+			client.onConnectionLost = function (responseObject){
+				console.log("Connection perdue: "+responseObject.errorMessage);
+			}
+
+			
+
+			
+			function onConnect(){
+				console.log("Connecte");
+				client.subscribe("sampublie");
+			}
+
+			client.connect({onSuccess: onConnect});
+			
+			client.onMessageArrived = function (message) {
+			console.log("Message arrive: " + message.payloadString);
+			console.log("Topic:     " + message.destinationName);
+			var msg=message.payloadString;
+
+			var tab=msg.split(",");
+			if(tab[0]=="c"){
+				tabCube[0].material.color.set(tab[1]);
+			}else if(tab[0]=="p"){
+				tabCube[0].position.set(tab[0],tab[0],tab[0])
+			}else{
+				objSphere = createSphere(400,'#FF0000',0,0,0,'espace.jpg');
+			}
+			//console.log("QoS:       " + message.qos);
+			//console.log("Retained:  " + message.retained);
+			//console.log("Duplicate: " + message.duplicate);
+			}
+
+
     </script>
 </body>
 </html>
