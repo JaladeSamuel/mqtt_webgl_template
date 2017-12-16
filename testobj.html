@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebGL test</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js"></script>
+    <meta charset="utf-8">
+  </head>
+  <body style="background-color: #000000;">
+    <div id="container" style="width: 640px; height: 480px; background-color: #000000;">
+    </div>
+    <script type="text/javascript">
+        var ratio, renderer, scene, camera, mesh;
+        init();     
+        //animate();  
+        function init(){
+          renderer = new THREE.WebGLRenderer();
+          scene = new THREE.Scene();
+          ratio = window.innerWidth / window.innerHeight;
+          renderer.setSize( window.innerWidth, window.innerHeight-100 );
+          document.getElementById('container').appendChild(renderer.domElement);
+          camera = new THREE.PerspectiveCamera(75, ratio, 1, 2000 );
+          camera.position.set(0, 0, 1500);
+          scene.add(camera);
+
+          var loader = new THREE.OBJLoader();
+          loader.load(
+            'test.obj',
+            function ( object ) { scene.add( object ); }, 
+            function ( xhr ) { console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); },
+            function ( error ) { console.log( 'An error happened' ); }
+          ); 
+          /*  var geometry = new THREE.BoxGeometry( 400, 400, 400);
+          var material = new THREE.MeshBasicMaterial( {color: '#FFFFFF'});
+          mesh = new THREE.Mesh( geometry, material );
+          scene.add( mesh );          */
+          renderer.render( scene, camera );         
+        }
+        /*function animate(){
+          requestAnimationFrame( animate );
+          mesh.rotation.x += 0.01;
+          mesh.rotation.y += 0.01;
+          renderer.render( scene, camera );
+        }*/
+    </script>
+</body>
+</html>

@@ -15,9 +15,12 @@
 	var intRotation=0;
 	var objCube;
 	var tabCube=new Array();
-
+	var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.jpg') });
 	init();
 	update();
+	
+	
+	
 
 	function init(){
 		/* Créé la scène. */
@@ -43,16 +46,18 @@
 		/* Créé la lumière */
 		createLight(0,500,1800,'#FFFFFF');
 
-		/* Créé un cube avec un matériau de couleur blanche. */
+		/* Créé une sphere avec un matériau de couleur blanche. */
 		createSphere(400,'#FFFFFF',0,0,0,null);
-		var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.jpg') });
-		tabCube[0].material = material;
+		
 
 		window.addEventListener( 'resize', onWindowResize, false );
 		renderer.render( scene, camera );	
 
 	}
-
+	
+	function changeMaterial(posTab, materialC){
+		tabCube[posTab].material = materialC;
+	}
 	/* Fonction d'adaptation au changement de taille de la fenêtre. */
 	function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -116,6 +121,7 @@
 	    /* Effectue le rendu de la scène. */
 	    renderer.render(scene, camera);   
 	}
+		
 
 	//MQTT	
 			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"samrecois");
