@@ -16,6 +16,7 @@
 	var objCube;
 	var tabCube=new Array();
 	var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.jpg') });
+	var player = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
 	init();
 	update();
 	
@@ -47,10 +48,11 @@
 		createLight(0,500,1800,'#FFFFFF');
 
 		/* Créé une sphere avec un matériau de couleur blanche. */
-		createSphere(400,'#FFFFFF',0,0,0,null);
-		
+		createCube(400,'#FFFFFF',0,0,0,null);
+
 
 		window.addEventListener( 'resize', onWindowResize, false );
+
 		renderer.render( scene, camera );	
 
 	}
@@ -116,7 +118,7 @@
 	    	 tabCube[i].rotation.z += intRotation;
 
 	   }
-	   
+
 	    
 	    /* Effectue le rendu de la scène. */
 	    renderer.render(scene, camera);   
