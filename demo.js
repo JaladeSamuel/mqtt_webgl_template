@@ -93,10 +93,10 @@ function animate(){
 	if(keyboard[39]){ // right arrow key
 		camera.rotation.y += player.turnSpeed;
 	}
-	if(keyboard[40]){ // right arrow key
+	if(keyboard[38]){ // right arrow key
 		camera.rotation.x -= player.turnSpeed;
 	}
-	if(keyboard[38]){ // right arrow key
+	if(keyboard[40]){ // right arrow key
 		camera.rotation.x += player.turnSpeed;
 	}
 
