@@ -11,52 +11,85 @@
     <div id="container" style="width: 640px; height: 480px; background-color: #000000;">
     </div>
     <script type="text/javascript">
-	var renderer, scene, camera, mesh, ratio, container;
+	var renderer, scene, camera, mesh, ratio, container, cube;
 	var intRotation=0;
-	var objCube;
 	var tabCube=new Array();
 	var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.jpg') });
 	var player = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
 	init();
-	update();
-	
-	
-	
+
+
+
+
 
 	function init(){
-		/* Créé la scène. */
-		scene = new THREE.Scene();
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(90, 1280/720, 0.1, 1000);
+    mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(1,1,1),
+      new THREE.MeshPhongMaterial({color:0xff4444, wireframe:USE_WIREFRAME})
+    );
+    mesh.position.y += 1;
+    mesh.receiveShadow = true;
+    mesh.castShadow = true;
+    scene.add(mesh);
 
-		/* Ratio de la taille de la fenêtre */
-		ratio = window.innerWidth / window.innerHeight;
+    meshFloor = new THREE.Mesh(
+      new THREE.PlaneGeometry(20,20, 10,10),
+      new THREE.MeshPhongMaterial({color:0xffffff, wireframe:USE_WIREFRAME})
+    );
+    meshFloor.rotation.x -= Math.PI / 2;
+    meshFloor.receiveShadow = true;
+    scene.add(meshFloor);
 
-		 /* Créé la caméra. */
-		camera = new THREE.PerspectiveCamera(75, ratio, 1, 2000 );
-		camera.position.set(0, 0, 1500);
-		scene.add(camera);
+    ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    scene.add(ambientLight);
 
-		/* Créé le moteur de rendu. */
-		renderer = new THREE.WebGLRenderer();
-		renderer.setSize( window.innerWidth, window.innerHeight );
-
-		
-		/* Insertion du moteur de rendu dans le DOM. */
-		container = $('#container');
-		container.append(renderer.domElement);
-		
-		/* Créé la lumière */
-		createLight(0,500,1800,'#FFFFFF');
-
-		/* Créé une sphere avec un matériau de couleur blanche. */
-		createCube(400,'#FFFFFF',0,0,0,null);
+    light = new THREE.PointLight(0xffffff, 0.8, 18);
+    light.position.set(-3,6,-3);
+    light.castShadow = true;
+    light.shadow.camera.near = 0.1;
+    light.shadow.camera.far = 25;
+    scene.add(light);
 
 
-		window.addEventListener( 'resize', onWindowResize, false );
+    // Texture Loading
+    var textureLoader = new THREE.TextureLoader();
+    crateTexture = textureLoader.load("crate0/crate0_diffuse.png");
+    crateBumpMap = textureLoader.load("crate0/crate0_bump.png");
+    crateNormalMap = textureLoader.load("crate0/crate0_normal.png");
 
-		renderer.render( scene, camera );	
+    // Create mesh with these textures
+    crate = new THREE.Mesh(
+      new THREE.BoxGeometry(3,3,3),
+      new THREE.MeshPhongMaterial({
+        color:0xffffff,
+
+        map:crateTexture,
+        bumpMap:crateBumpMap,
+        normalMap:crateNormalMap
+      })
+    );
+    scene.add(crate);
+    crate.position.set(2.5, 3/2, 2.5);
+    crate.receiveShadow = true;
+    crate.castShadow = true;
+
+
+    camera.position.set(0, player.height, -5);
+    camera.lookAt(new THREE.Vector3(0,player.height,0));
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(1280, 720);
+
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.BasicShadowMap;
+
+    document.body.appendChild(renderer.domElement);
+	update();
 
 	}
-	
+
 	function changeMaterial(posTab, materialC){
 		tabCube[posTab].material = materialC;
 	}
@@ -103,7 +136,7 @@
 
 	/* Détruit un cube */
 	function deleteCube(obj){
-		
+
 	}
 
 	/* Fonction permettant de mettre à jour les éléments de la scène. = ROTATION*/
@@ -119,30 +152,30 @@
 
 	   }
 
-	    
-	    /* Effectue le rendu de la scène. */
-	    renderer.render(scene, camera);   
-	}
-		
 
-	//MQTT	
+	    /* Effectue le rendu de la scène. */
+	    renderer.render(scene, camera);
+	}
+
+
+	//MQTT
 			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"samrecois");
 
-		
+
 			client.onConnectionLost = function (responseObject){
 				console.log("Connection perdue: "+responseObject.errorMessage);
 			}
 
-			
 
-			
+
+
 			function onConnect(){
 				console.log("Connecte");
 				client.subscribe("sampublie");
 			}
 
 			client.connect({onSuccess: onConnect});
-			
+
 			client.onMessageArrived = function (message) {
 			console.log("Message arrive: " + message.payloadString);
 			console.log("Topic:     " + message.destinationName);
@@ -156,7 +189,7 @@
 			}else{
 				var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.jpg') });
 				tabCube[0].material = material;
-				
+
 			}
 			//console.log("QoS:       " + message.qos);
 			//console.log("Retained:  " + message.retained);

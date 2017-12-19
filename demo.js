@@ -1,4 +1,4 @@
-var scene, camera, renderer, mesh;
+var scene, camera, renderer, mesh, Objlight;
 var meshFloor, ambientLight, light;
 var crate, crateTexture, crateNormalMap, crateBumpMap;
 
@@ -22,10 +22,13 @@ function init(){
 
 
 
-	light = new THREE.PointLight(0xffffff, 0.8, 18);
-	light.position.set(-3,6,-3);
-
+	light = new THREE.PointLight(0xffffff,1, 100);
+	light.position.set(0,50,-50);
 	scene.add(light);
+
+	Objlight = new THREE.PointLight(0xffffff,1, 100);
+	Objlight.position.set(0,0,0);
+	scene.add(Objlight);
 
 		// Model/material loading!
 	var mtlLoader = new THREE.MTLLoader();
@@ -34,7 +37,7 @@ function init(){
 	var objLoader = new THREE.OBJLoader();
 	objLoader.setMaterials(materials);
 
-	objLoader.load("test.obj", function(mesh){
+	objLoader.load("models/Tent_Poles_01.obj", function(mesh){
 
 		mesh.traverse(function(node){
 			if( node instanceof THREE.Mesh ){
@@ -44,13 +47,13 @@ function init(){
 		});
 
 		scene.add(mesh);
-		mesh.position.set(-5, 0, 4);
+		mesh.position.set(-2, 0, 0);
 		mesh.rotation.y = -Math.PI/4;
 		});
 	});
 
 
-	camera.position.set(0, player.height, -5);
+	camera.position.set(0, 0, -5);
 	camera.lookAt(new THREE.Vector3(0,player.height,0));
 
 	renderer = new THREE.WebGLRenderer();
@@ -93,10 +96,10 @@ function animate(){
 	if(keyboard[39]){ // right arrow key
 		camera.rotation.y += player.turnSpeed;
 	}
-	if(keyboard[38]){ // right arrow key
+	if(keyboard[40]){ // right arrow key
 		camera.rotation.x -= player.turnSpeed;
 	}
-	if(keyboard[40]){ // right arrow key
+	if(keyboard[38]){ // right arrow key
 		camera.rotation.x += player.turnSpeed;
 	}
 
