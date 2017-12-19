@@ -22,7 +22,7 @@ function init(){
 	setCameraPos(1,player.height,-5,0,player.height,0);
 
 	renderer = new THREE.WebGLRenderer();
-	renderer.setSize(1400,900);
+	renderer.setSize(window.innerWidth,900);
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.BasicShadowMap;
 	document.body.appendChild(renderer.domElement);
