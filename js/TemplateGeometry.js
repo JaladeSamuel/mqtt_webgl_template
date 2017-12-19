@@ -12,7 +12,7 @@ window.onload = init;
 
 function init(){
 	scene = new THREE.Scene();
-	camera = new THREE.PerspectiveCamera(75, 1400/900, 1, 1000);
+	camera = new THREE.PerspectiveCamera(75, window.innerWidth/900, 1, 1000);
 
 	createSphere(1,'#FFFFFF',0,1,0,true,true);
   createCube(1,'#FFFFFF',3,3,3,true,true);
