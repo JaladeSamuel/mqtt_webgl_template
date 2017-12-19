@@ -28,13 +28,13 @@
 		ratio = window.innerWidth / window.innerHeight;
 
 		 /* Créé la caméra. */
-		camera = new THREE.PerspectiveCamera(75, (ratio/2), 1, 2000 );
+		camera = new THREE.PerspectiveCamera(75, ratio, 1, 2000 );
 		camera.position.set(0, 0, 1500);
 		scene.add(camera);
 
 		/* Créé le moteur de rendu. */
 		renderer = new THREE.WebGLRenderer();
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setSize( window.innerWidth/2, window.innerHeight/2 );
 
 		
 		/* Insertion du moteur de rendu dans le DOM. */
