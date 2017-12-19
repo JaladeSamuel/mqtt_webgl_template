@@ -183,7 +183,7 @@
 			console.log("Message arrive: " + message.payloadString);
 			console.log("Topic:     " + message.destinationName);
 			var msg=message.payloadString;
-			var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('espace.png') });
+		
 			var tab=msg.split(",");
 			if(tab[0]=="c"){
 				tabCube[0].material.color.set(tab[1]);
