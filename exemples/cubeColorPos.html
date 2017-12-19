@@ -31,7 +31,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
 
-  <body style="background-color: #000000;text-align:center">
+  <body style="text-align:center">
 	<header class="masthead bg-primary text-white text-center">
       <div class="container">
         <!--<img class="img-fluid mb-5 d-block mx-auto" src="/img/giphy.gif" >  LOGO A METTRE -->
@@ -47,7 +47,7 @@
     </div>
 
     <script type="text/javascript">
-	var renderer, scene, camera, mesh, ratio, container;
+	var renderer, scene, camera, mesh, container;
 	var intRotation=0;
 	var objCube;
 	var tabCube=new Array();
@@ -59,11 +59,9 @@
 		/* Créé la scène. */
 		scene = new THREE.Scene();
 
-		/* Ratio de la taille de la fenêtre */
-		ratio = window.innerWidth / window.innerHeight;
 
 		 /* Créé la caméra. */
-		camera = new THREE.PerspectiveCamera(75, ratio, 1, 2000 );
+		camera = new THREE.PerspectiveCamera(75, 1400/900, 1, 2000 );
 		camera.position.set(0, 0, 1500);
 		scene.add(camera);
 
@@ -84,6 +82,7 @@
 		createCube(400,'#FFFFFF',0,0,0,null);
 
 		window.addEventListener( 'resize', onWindowResize, false );
+    renderer.setSize(1400,900);
 		renderer.render( scene, camera );
 
 	}
