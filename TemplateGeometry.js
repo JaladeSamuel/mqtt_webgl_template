@@ -13,13 +13,7 @@ function init(){
   createSphere(1,'#FFFFFF',0,1,0,true,true);
   createCube(1,'#FFFFFF',3,3,3,true,true);
 
-	meshFloor = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20, 10,10),
-		new THREE.MeshPhongMaterial({color:0xffffff, wireframe:USE_WIREFRAME})
-	);
-	meshFloor.rotation.x -= Math.PI / 2;
-	meshFloor.receiveShadow = true;
-	scene.add(meshFloor);
+
 
 	ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
 	scene.add(ambientLight);
@@ -43,6 +37,17 @@ function init(){
 	document.body.appendChild(renderer.domElement);
 
 	animate();
+}
+
+/* Crée un sol */
+function createFloor(){
+  meshFloor = new THREE.Mesh(
+    new THREE.PlaneGeometry(20,20, 10,10),
+    new THREE.MeshPhongMaterial({color:0xffffff, wireframe:USE_WIREFRAME})
+  );
+  meshFloor.rotation.x -= Math.PI / 2;
+  meshFloor.receiveShadow = true;
+  scene.add(meshFloor);
 }
 
 function inverserWireframe(){
