@@ -7,7 +7,7 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"type="text/javascript"></script>
     <meta charset="utf-8">
-	
+
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -30,12 +30,12 @@
     <link href="css/freelancer.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-   
-  <body style="background-color: #000000;">
+
+  <body style="background-color: #000000;text-align:center">
 	<header class="masthead bg-primary text-white text-center">
       <div class="container">
         <!--<img class="img-fluid mb-5 d-block mx-auto" src="/img/giphy.gif" >  LOGO A METTRE -->
-		
+
         <h1 class="text-uppercase mb-0">PTUT SciVisu</h1>
 		<p></p><br />
         <i class="fa fa-wrench" style="font-size:36px"></i>
@@ -45,13 +45,13 @@
     </header>
     <div id="container" style="width: 640px; height: 480px; background-color: #000000;">
     </div>
-	
+
     <script type="text/javascript">
 	var renderer, scene, camera, mesh, ratio, container;
 	var intRotation=0;
 	var objCube;
 	var tabCube=new Array();
-	
+
 	init();
 	update();
 
@@ -71,11 +71,11 @@
 		renderer = new THREE.WebGLRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
-		
+
 		/* Insertion du moteur de rendu dans le DOM. */
 		container = $('#container');
 		container.append(renderer.domElement);
-		
+
 		/* Créé la lumière */
 		createLight(0,500,1800,'#FFFFFF');
 
@@ -84,7 +84,7 @@
 		createCube(400,'#FFFFFF',0,0,0,null);
 
 		window.addEventListener( 'resize', onWindowResize, false );
-		renderer.render( scene, camera );	
+		renderer.render( scene, camera );
 
 	}
 
@@ -131,7 +131,7 @@
 
 	/* Détruit un cube */
 	function deleteCube(obj){
-		
+
 	}
 
 	/* Fonction permettant de mettre à jour les éléments de la scène. = ROTATION*/
@@ -145,30 +145,30 @@
 	    	 tabCube[i].rotation.z += intRotation;
 
 	    }
-	   
-	    
+
+
 	    /* Effectue le rendu de la scène. */
-	    renderer.render(scene, camera);   
+	    renderer.render(scene, camera);
 	}
 
-	//MQTT	
+	//MQTT
 			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"samrecois");
 
-		
+
 			client.onConnectionLost = function (responseObject){
 				console.log("Connection perdue: "+responseObject.errorMessage);
 			}
 
-			
 
-			
+
+
 			function onConnect(){
 				console.log("Connecte");
 				client.subscribe("sampublie");
 			}
 
 			client.connect({onSuccess: onConnect});
-			
+
 			client.onMessageArrived = function (message) {
 			console.log("Message arrive: " + message.payloadString);
 			console.log("Topic:     " + message.destinationName);
@@ -181,7 +181,7 @@
 				tabCube[0].position.set(tab[1],tab[2],tab[3])
 			}else{
 				tabCube[0].material = material;
-				
+
 			}
 			//console.log("QoS:       " + message.qos);
 			//console.log("Retained:  " + message.retained);
