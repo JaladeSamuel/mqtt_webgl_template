@@ -43,7 +43,11 @@
 
         <h1 class="text-uppercase mb-0">PTUT SciVisu</h1>
 		<p></p><br />
-        <h2 class="font-weight-light mb-0">Interface de visualisation de données scientifique en WebGL</h2>
+        <h2 class="font-weight-light mb-0">Exemple d'utilisation de THREE.js et de MQTT </h2>
+		<p>Il est possible de changer la couleur du cube en envoyant un message en MQTT.</p>
+		<p>Pour se faire envoyer un message sur le port 2532. Exemple : "c,red" pour changer la couleur du cube en rouge</p>
+		<p>Pour changer la position envoyer un message du type "p,0,0,1000".</p>
+		<p><b>Le message doit être envoyé avec le nom de topic : testCube</b></p>
       </div>
     </header>
 	
@@ -88,7 +92,7 @@
 		createCube(400,'#FFFFFF',0,0,0,null);
 
 		window.addEventListener( 'resize', onWindowResize, false );
-    renderer.setSize(1200,900);
+    renderer.setSize(1400,900);
 		renderer.render( scene, camera );
 
 	}
@@ -169,7 +173,7 @@
 
 			function onConnect(){
 				console.log("Connecte");
-				client.subscribe("sampublie");
+				client.subscribe("testCube");
 			}
 
 			client.connect({onSuccess: onConnect});
