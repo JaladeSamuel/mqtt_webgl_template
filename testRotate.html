@@ -1,0 +1,101 @@
+<html>
+
+<head>
+ <title>HemisphereLightHelper</title>
+
+ <style>
+  body {
+   margin: 0;
+   overflow: hidden;
+  }
+
+  canvas {
+   background: red;
+  }
+ </style>
+</head>
+
+<body>
+
+ <canvas id="myCanvas"></canvas>
+  <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
+ <script src="js/three.js"></script>
+ <script>
+  //RENDERER
+  var renderer = new THREE.WebGLRenderer(
+  {
+   canvas: document.getElementById('myCanvas'),
+   antialias: true
+  });
+  renderer.setClearColor(0x0000ff);
+  //0x0000ff => indicate blue color
+
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  //SCENE
+  var scene = new THREE.Scene();
+
+  //METERIAL
+  var material = new THREE.MeshPhongMaterial();
+
+  //OBJECT
+  var geometry1 = new THREE.BoxGeometry(100, 100, 100);
+  //geometry.computeLineDistances();
+  var mesh1 = new THREE.Mesh(geometry1, material);
+  mesh1.position.z = -1000;
+  mesh1.position.x = -100;
+  scene.add(mesh1);
+
+  var geometry2 = new THREE.SphereGeometry(50, 20, 20);
+  var mesh2 = new THREE.Mesh(geometry2, material);
+  mesh2.position.z = -1000;
+  mesh2.position.x = 100;
+  scene.add(mesh2);
+
+  var geometry3 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+  var mesh3 = new THREE.Mesh(geometry3, material);
+  mesh3.rotation.x = -90 * Math.PI / 180;
+  mesh3.position.y = -100;
+  scene.add(mesh3);
+
+  //LIGHT
+
+  //var light = new THREE.SpotLight(0xffffff, 4.0, 3000);
+  //light.target = mesh1;
+  //scene.add(light);
+
+  var light = new THREE.HemisphereLight(0xffffff, 0xff0000);
+  scene.add(light);
+
+  var LightHelper = new THREE.HemisphereLightHelper(light);
+  scene.add(LightHelper);
+
+  //CAMERA
+  var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 300, 3000);
+  //var newCamera=new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 300, 3000);
+  //var cameraHelper=new THREE.CameraHelper(newCamera);
+  scene.add(camera);
+
+  //RENDER LOOP
+  requestAnimationFrame(render);
+
+  var delta = 0;
+
+  function render()
+  {
+
+   delta += 0.01;
+   camera.lookAt(light.position);
+   camera.position.x = Math.sin(delta) * 2000;
+   camera.position.z = Math.cos(delta) * 2000;
+
+   renderer.render(scene, camera);
+   requestAnimationFrame(render);
+
+   LightHelper.update();
+  }
+ </script>
+</body>
+
+</html>
