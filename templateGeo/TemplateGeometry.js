@@ -30,13 +30,13 @@ function init(){
 	animate();
 }
 
-/* Crée un point lumineux */
+/* CrÃ©e un point lumineux */
 function setCameraPos(x,y,z,vecteurX,vecteurY,vecteurZ){
 	camera.position.set(x, y, z);
 	camera.lookAt(new THREE.Vector3(vecteurX,vecteurY,vecteurZ));
 }
 
-/* Crée un point lumineux */
+/* CrÃ©e un point lumineux */
 function createPointLight(color, intensity, distance, decay, x, y, z, castOmbre){
 	light = new THREE.PointLight(color, intensity, distance, decay);
 	light.position.set(x,y,z);
@@ -44,13 +44,13 @@ function createPointLight(color, intensity, distance, decay, x, y, z, castOmbre)
 	scene.add(light);
 }
 
-/* Crée une lumiere ambiante */
+/* CrÃ©e une lumiere ambiante */
 function createAmbientLight(color,intensity){
 	ambientLight = new THREE.AmbientLight(color,intensity);
 	scene.add(ambientLight);
 }
 
-/* Crée un sol */
+/* CrÃ©e un sol */
 function createFloor(x,y,color,ombreReceive){
 	meshFloor = new THREE.Mesh(
 		new THREE.PlaneGeometry(x,y, 10,10),
@@ -102,16 +102,11 @@ function animate(){
 	if(keyboard[39]){ // right arrow key
 		camera.rotation.y += player.turnSpeed;
 	}
-	if(keyboard[38]){ // right arrow key
-		camera.rotation.x -= player.turnSpeed;
-	}
-	if(keyboard[40]){ // right arrow key
-		camera.rotation.x += player.turnSpeed;
-	}
+
   renderer.render(scene, camera);
 }
 
-/* Créé un cube */
+/* CrÃ©Ã© un cube */
 function createCube(size,colors,posX, posY, posZ, ombreCast, ombreReceive){
   mesh = new THREE.Mesh(
     new THREE.BoxGeometry(size, size, size),
@@ -124,7 +119,7 @@ function createCube(size,colors,posX, posY, posZ, ombreCast, ombreReceive){
   scene.add(mesh);
 }
 
-/* Créé une sphere */
+/* CrÃ©Ã© une sphere */
 function createSphere(size,colors,posX, posY, posZ, ombreCast, ombreReceive){
   mesh = new THREE.Mesh(
     new THREE.SphereGeometry(size, 50, 20),
