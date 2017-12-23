@@ -18,4 +18,4 @@ it's stored in directory :
   - Others directory made for test..
 
 siteweb contains clean code we upload online on the website :
-[archibald.snootlab.info](archibald.snootlab.info:2531)
+archibald.snootlab.info:2531
