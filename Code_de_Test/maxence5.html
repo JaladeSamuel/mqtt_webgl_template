@@ -32,27 +32,27 @@
 		renderer = new THREE.WebGLRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
-		
+
 		/* Insertion du moteur de rendu dans le DOM. */
 		container = $('#container');
 		container.append(renderer.domElement);
-		
+
 		/* Créé la lumière */
 		createLight(0,500,1800,'#00FF00');
 		createLight(1800,500,0,'#FF0000');
 		createLight(0,500,0,'#0000FF');
 
 		/* Créé un cube avec un matériau de couleur blanche. */
-		createCube(450,'#FFFFFF',0,0,0,'maxence.png');
-		createCube2(450,'#FFFFFF',800,600,0,'maxence.png');
-		createCube3(450,'#FFFFFF',-950,-500,0,'maxence.png');
-		createCube4(800,'#FFFFFF',-950,500,0,'maxence.png');
-		createCube5(300,'#FFFFFF',950,-500,0,'maxence.png');
-		 
-		 
-		
+		createCube(450,'#FFFFFF',0,0,0,'Images/maxence.png');
+		createCube2(450,'#FFFFFF',800,600,0,'Images/maxence.png');
+		createCube3(450,'#FFFFFF',-950,-500,0,'Images/maxence.png');
+		createCube4(800,'#FFFFFF',-950,500,0,'Images/maxence.png');
+		createCube5(300,'#FFFFFF',950,-500,0,'Images/maxence.png');
+
+
+
 		//window.addEventListener( 'resize', onWindowResize, false );
-		renderer.render( scene, camera );	
+		renderer.render( scene, camera );
 
 	}
 
@@ -77,7 +77,7 @@
 		}else{
 			objCube = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
 		}
-			
+
 		  	objCube.position.set(posX, posY, posZ);
 		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
 		 	scene.add(objCube);
@@ -88,7 +88,7 @@
 		}else{
 			objCube2 = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
 		}
-			
+
 		  	objCube2.position.set(posX, posY, posZ);
 		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
 		 	scene.add(objCube2);
@@ -99,7 +99,7 @@
 		}else{
 			objCube3 = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
 		}
-			
+
 		  	objCube3.position.set(posX, posY, posZ);
 		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
 		 	scene.add(objCube3);
@@ -110,7 +110,7 @@
 		}else{
 			objCube4 = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
 		}
-			
+
 		  	objCube4.position.set(posX, posY, posZ);
 		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
 		 	scene.add(objCube4);
@@ -121,7 +121,7 @@
 		}else{
 			objCube5 = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(material) }));
 		}
-			
+
 		  	objCube5.position.set(posX, posY, posZ);
 		 	//objCube.rotation.set(rotationX, rotationY, rotationZ);
 		 	scene.add(objCube5);
@@ -136,7 +136,7 @@
 	/* Fonction permettant de mettre à jour les éléments de la scène. = ROTATION*/
 	function update() {
 	    requestAnimationFrame(update);
-	    
+
 	    /* Effectue une rotation du cube sur les 3 axes X, Y et Z. */
 	    intRotation = 0.01;
 	    intRotation2 = 0.10;
@@ -155,9 +155,9 @@
 	    objCube5.rotation.x += intRotation;
 	    objCube5.rotation.y += intRotation;
 	    objCube5.rotation.z += intRotation;
-	    
+
 	    /* Effectue le rendu de la scène. */
-	    renderer.render(scene, camera);   
+	    renderer.render(scene, camera);
 }
     </script>
 </body>
