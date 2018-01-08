@@ -16,7 +16,6 @@ var USE_WIREFRAME = false;
 
 	scene.add(light);
 
-		// Model/material loading!
 	var mtlLoader = new THREE.MTLLoader();
 	mtlLoader.load("Objets/MTL/Tent_Poles_01.mtl", function(materials){
 	materials.preload();
@@ -33,8 +32,9 @@ var USE_WIREFRAME = false;
 		});
 
 		scene.add(mesh);
-		mesh.position.set(-5, 0, 4);
-		mesh.rotation.y = -Math.PI/4;
+		mesh.position.set(0, 0, 1);
+    mesh.scale.set( 4, 4, 4 );
+		mesh.rotation.y = 2;
 		});
 	});
 
@@ -54,9 +54,6 @@ var USE_WIREFRAME = false;
 
 function animate(){
 	requestAnimationFrame(animate);
-
-	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.02;
 
 	if(keyboard[90]){ // Z -> avant
 		camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
