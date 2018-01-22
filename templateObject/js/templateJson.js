@@ -21,10 +21,10 @@ client.onMessageArrived = function (message) {
 		bool=false;
 	}else{
 			console.log("Message arrive: " + message.payloadString);
-			str=str+message.payloadString;
+			str+=message.payloadString;
 			cpt++;
 			console.log("compteur " + cpt);
-			if(cpt>=26){
+			if(cpt>=taille-2){
 				messageEntier();
 			}
 				
@@ -32,7 +32,7 @@ client.onMessageArrived = function (message) {
 }
 
 function messageEntier(){
-	console.log(str);
+	console.log("ON AFFICHE LE MESSAGE EN ENTIER \n"+str);
 }
 
 client.connect({onSuccess: onConnect});
