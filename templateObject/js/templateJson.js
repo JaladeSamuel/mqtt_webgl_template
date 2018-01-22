@@ -1,11 +1,10 @@
 var container, stats, clock, mixer;
-var camera, scene, renderer, objects,str, bool, taille, cpt, stringInsane;
+var camera, scene, renderer, objects,str, bool, taille, cpt;
 
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
 bool=true;
 cpt=0;
 str="";
-stringInsane="mmmmmmmmmmmmm";
 client.onConnectionLost = function (responseObject){
 	console.log("Connection perdue: "+responseObject.errorMessage);
 }
@@ -19,31 +18,28 @@ function onConnect(){
 
 client.onMessageArrived = function (message) {
 	if(bool==true){
-		console.log(""+stringInsane);
 		console.log("taille : " + message.payloadString);
 		taille=parseInt(message.payloadString,10);
 		bool=false;
 	}else{
-			console.log("Message arrive: " + message.payloadString);
 			str+=message.payloadString;
 			cpt++;
 			console.log("compteur " + cpt);
-			if(cpt>=taille-2){
+			if(cpt==taille){
 				messageEntier();
 			}
 
 	}
 }
-
 function messageEntier(){
-	console.log("Test \n"+stringInsane);
-	console.log("ON AFFICHE LE MESSAGE EN ENTIER \n"+str);
+	console.log(str);
+	obj=JSON.parse(str);
+	console.log(typeof(obj));
+
 }
 
+
 client.connect({onSuccess: onConnect});
-
-
-
 
 
 container = document.getElementById( 'container' );
@@ -51,22 +47,20 @@ container = document.getElementById( 'container' );
 camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
 camera.position.set( 4, 4, 4 );
 
+
 scene = new THREE.Scene();
 mixer = new THREE.AnimationMixer( scene );
-if(cpt==26-2){
-	var loader = new THREE.JSONLoader();
-	loader.load( 'jsonObject/monster.js', function ( geometry, materials ) {
 
-		var material = materials[ 0 ];
-		material.morphTargets = true;
-		var mesh = new THREE.Mesh( geometry, materials );
-		mesh.scale.set( 0.001, 0.001, 0.001 );
-		mesh.matrixAutoUpdate = false;
-		mesh.updateMatrix();
-		scene.add( mesh );
-	} );
-}
-
+var loader = new THREE.JSONLoader();
+loader.load( './jsonObject/horse.json', function ( geometry, materials ) {
+	var material = materials[ 0 ];
+	material.morphTargets = true;
+	var mesh = new THREE.Mesh( geometry, materials );
+	mesh.scale.set( 0.001, 0.001, 0.001 );
+	mesh.matrixAutoUpdate = false;
+	mesh.updateMatrix();
+	scene.add( mesh );
+} );
 
 var ambientLight = new THREE.AmbientLight( 0xffffff );
 scene.add( ambientLight );
