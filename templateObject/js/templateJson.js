@@ -32,9 +32,7 @@ client.onMessageArrived = function (message) {
 	}
 }
 function messageEntier(){
-	console.log(str);
 	obj=JSON.parse(str);
-	console.log(typeof(obj));
 	var loader = new THREE.JSONLoader();
 	var model = loader.parse( obj );
 	var material = model.materials[ 0 ];
