@@ -1,5 +1,5 @@
 var container, stats, clock, mixer;
-var camera, scene, renderer, objects,str, bool, taille, cpt;
+var camera, scene, renderer, objects,str, bool, taille, cpt, stringInsane;
 
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
 bool=true;
@@ -14,8 +14,11 @@ function onConnect(){
 	client.subscribe("JSONtemplate");
 }
 
+stringInsane="mmmmmmmmmmmmm";
+
 client.onMessageArrived = function (message) {
 	if(bool==true){
+		console.log(""+stringInsane);
 		console.log("taille : " + message.payloadString);
 		taille=parseInt(message.payloadString,10);
 		bool=false;
@@ -27,11 +30,12 @@ client.onMessageArrived = function (message) {
 			if(cpt>=taille-2){
 				messageEntier();
 			}
-				
+
 	}
 }
 
 function messageEntier(){
+	alert("bonjour");
 	console.log("ON AFFICHE LE MESSAGE EN ENTIER \n"+str);
 }
 
