@@ -4,7 +4,8 @@ var camera, scene, renderer, objects,str, bool, taille, cpt, stringInsane;
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
 bool=true;
 cpt=0;
-
+str="";
+stringInsane="mmmmmmmmmmmmm";
 client.onConnectionLost = function (responseObject){
 	console.log("Connection perdue: "+responseObject.errorMessage);
 }
@@ -14,7 +15,7 @@ function onConnect(){
 	client.subscribe("JSONtemplate");
 }
 
-stringInsane="mmmmmmmmmmmmm";
+
 
 client.onMessageArrived = function (message) {
 	if(bool==true){
@@ -35,7 +36,7 @@ client.onMessageArrived = function (message) {
 }
 
 function messageEntier(){
-	alert("bonjour");
+	console.log("Test \n"+stringInsane);
 	console.log("ON AFFICHE LE MESSAGE EN ENTIER \n"+str);
 }
 
