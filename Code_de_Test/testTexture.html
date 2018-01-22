@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebGL test</title>
+    <meta charset="utf-8">
+    <script src="../JS_three.js/three.min.js"></script>
+  </head>
+  <body style="background-color: #000000;">
+    <div id="container">
+    </div>
+    <script type="text/javascript">
+	var renderer, scene, camera, mesh, ratio, container;
+	var intRotation=0.10;
+	var objCube;
+
+	init();
+	update();
+
+  function init(){
+    renderer = new THREE.WebGLRenderer();
+
+    renderer.setSize( 700, 700 );
+    document.getElementById('container').appendChild(renderer.domElement);
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(50, 1, 1, 10000 );
+    camera.position.set(0, 0, 500);
+    scene.add(camera);
+
+    var geometry = new THREE.BoxGeometry( 50, 50, 50);
+    var material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture("./Images/bois.jpg") });
+    mesh = new THREE.Mesh( geometry, material );
+    mesh.rotation.x += 1;
+    mesh.rotation.y += 1;
+    scene.add( mesh );
+
+    var geometry = new THREE.SphereGeometry( 200, 32, 32);
+    var material = new THREE.MeshBasicMaterial( {color: 0xffffff, wireframe:true});
+    mesh2 = new THREE.Mesh( geometry, material );
+    scene.add( mesh2 );
+
+
+
+    renderer.render( scene, camera );
+  }
+
+function update() {
+    requestAnimationFrame(update);
+    mesh.rotation.x += intRotation;
+    mesh.rotation.y += intRotation;
+    renderer.render(scene, camera);
+}
+
+  </script>
+</body>
+</html>
