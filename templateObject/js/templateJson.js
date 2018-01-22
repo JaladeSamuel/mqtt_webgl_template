@@ -1,12 +1,39 @@
 			var container, stats, clock, mixer;
-			var camera, scene, renderer, objects;
+			var camera, scene, renderer, objects,str;
+
+			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
+
+
+			client.onConnectionLost = function (responseObject){
+				console.log("Connection perdue: "+responseObject.errorMessage);
+			}
+
+
+
+
+			function onConnect(){
+				console.log("Connecte");
+				client.subscribe("JSONtemplate");
+			}
+
+			client.connect({onSuccess: onConnect});
+
+			client.onMessageArrived = function (message) {
+			console.log("Message arrive: " + message.payloadString);
+			str=str+message.payloadString;
+			console.log("Topic:     " + message.destinationName);
+			var msg=message.payloadString;
+
+			}
+
+			alert(str);
+
 
 			container = document.getElementById( 'container' );
 
 			camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
 			camera.position.set( 4, 4, 4 );
 
-			clock = new THREE.Clock();
 			scene = new THREE.Scene();
 			mixer = new THREE.AnimationMixer( scene );
 
@@ -49,7 +76,6 @@
 			function animate() {
 				requestAnimationFrame( animate );
 				var timer = Date.now() * 0.0005;
-				mixer.update( clock.getDelta() );
 				camera.lookAt( scene.position );
 				renderer.render( scene, camera );
 				stats.update();
