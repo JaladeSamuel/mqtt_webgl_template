@@ -66,12 +66,12 @@
 
     		// Model/material loading!
     	var mtlLoader = new THREE.MTLLoader();
-    	mtlLoader.load("../models/Tent_Poles_01.mtl", function(materials){
+    	mtlLoader.load("../templateObject/Objets/MTL/Tent_Poles_01.mtl", function(materials){
     	materials.preload();
     	var objLoader = new THREE.OBJLoader();
     	objLoader.setMaterials(materials);
 
-    	objLoader.load("../models/test.obj", function(mesh){
+    	objLoader.load("../templateObject/Objets/OBJ/Puss_in_boots.obj", function(mesh){
 
     		mesh.traverse(function(node){
     			if( node instanceof THREE.Mesh ){
