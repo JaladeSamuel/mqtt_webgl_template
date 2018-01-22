@@ -5,15 +5,15 @@
     <meta charset="utf-8">
   </head>
 <body>
-    
+
   <div id="container"></div>
-  <script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js"></script>
   <script type="text/javascript">
-  
+
 	var renderer, scene, camera, mesh;
 	init();
 	animate();
-	
+
 	function init(){
 		renderer = new THREE.WebGLRenderer();
 
@@ -25,21 +25,21 @@
 		camera = new THREE.PerspectiveCamera(50, 1, 1, 10000 );
 		camera.position.set(0, 0, 500);
 		scene.add(camera);
-		
+
 		var geometry = new THREE.BoxGeometry( 50, 50, 50);
 		var material = new THREE.MeshBasicMaterial( {color: 0xFF0000, wireframe:false});
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.rotation.x += 1;
 		mesh.rotation.y += 1;
 		scene.add( mesh );
-		
+
 		var geometry = new THREE.SphereGeometry( 200, 32, 32);
 		var material = new THREE.MeshBasicMaterial( {color: 0xffffff, wireframe:true});
 		mesh2 = new THREE.Mesh( geometry, material );
 		scene.add( mesh2 );
-		
-		
-		
+
+
+
 		renderer.render( scene, camera );
 	}
 	function animate(){

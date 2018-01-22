@@ -1,5 +1,22 @@
 			var container, stats, clock, mixer;
-			var camera, scene, renderer, objects;
+			var camera, scene, renderer, objects, str;
+			str="";
+			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
+			client.onConnectionLost = function (responseObject){
+				console.log("Connection perdue: "+responseObject.errorMessage);
+			}
+			function onConnect(){
+				console.log("Connecte");
+				client.subscribe("testJSON");
+			}
+			client.connect({onSuccess: onConnect});
+			client.onMessageArrived = function (message) {
+			console.log("Message arrive: " + message.payloadString);
+			str=str+message.payloadString;
+			console.log(str);
+			console.log("Topic:     " + message.destinationName);
+			}
+
 
 			container = document.getElementById( 'container' );
 
@@ -10,8 +27,11 @@
 			scene = new THREE.Scene();
 			mixer = new THREE.AnimationMixer( scene );
 
+			alert(str);
+			var obj = JSON.parse(str);
+
 			var loader = new THREE.JSONLoader();
-			loader.load( 'jsonObject/monster.js', function ( geometry, materials ) {
+			loader.load( obj, function ( geometry, materials ) {
 
 				var material = materials[ 0 ];
 				material.morphTargets = true;
@@ -38,12 +58,9 @@
 			animate();
 
 			function onWindowResize( event ) {
-
 				renderer.setSize( window.innerWidth, window.innerHeight );
-
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-
 			}
 
 			function animate() {
