@@ -54,7 +54,7 @@
 	
 
 	//MQTT
-			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"testMQTT");
+			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"clientReceive");
 
 
 			client.onConnectionLost = function (responseObject){
@@ -73,7 +73,7 @@
 
 			client.onMessageArrived = function (message) {
 			console.log("Message arrive: " + message.payloadString);
-			console.log("Topic:     " + message.destinationName);
+			//console.log("Topic:     " + message.destinationName);
 
 		
 			
