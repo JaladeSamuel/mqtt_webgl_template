@@ -1,0 +1,78 @@
+<body>
+    </nav>  
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+      <button class="accordion">Section 1</button>
+        <div class="panel">
+           <pre>
+              <code class="js">
+function createCube(size,colors,posX, posY, posZ, 
+ombreCast, ombreReceive){
+  mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(size, size, size),
+    new THREE.MeshPhongMaterial({ color: colors })
+  );
+  mesh.position.set(posX, posY, posZ);
+  mesh.receiveShadow = ombreReceive;
+  mesh.castShadow = ombreCast;
+  tabObject.push(mesh);
+  scene.add(mesh);
+}
+              </code>
+           </pre>
+         </div>
+
+      <button class="accordion">Section 2</button>
+        <div class="panel">
+          <button class="accordion">Section 4</button>
+          <div class="panel">
+            t'as vu<br />ddd
+          </div>
+          <button class="accordion">Section 4</button>
+          <div class="panel">
+            ca march
+          </div>
+          <button class="accordion">Section 4</button>
+          <div class="panel">
+            ca marche
+          </div>
+          <button class="accordion">Section 4</button>
+          <div class="panel">
+            ca marche
+          </div>
+        </div>
+      <a href="#">Clients</a>
+      <a href="#">Contact</a>
+    </div>
+	<div id="main">
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+    </div>
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "450px";
+        document.getElementById("main").style.marginRight = "450px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight= "0";
+    }
+    </script>
+    <script>
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.display){
+            panel.style.display = null;
+          } else {
+            panel.style.display = "block";
+          } 
+        });
+      }
+    </script>
