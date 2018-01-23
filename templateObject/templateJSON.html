@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+	<link href="../css/sidenav.css" rel="stylesheet">
 		<title>template JSON</title>
 		<meta charset="utf-8">
 		<style>
@@ -21,11 +22,206 @@
 			}
 		</style>
 	</head>
+	<div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	  <button class="accordion">Code source(three.js)</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+var camera, scene, renderer, objects, container;
+
+//Accrocher la scene au container
+container = document.getElementById( 'container' );
+
+//Declaration de la caméra
+camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 2000 );
+camera.position.set( 4, 4, 4 );
+
+//Initialisation des variables pour les mouvements
+var keyboard = {};
+var player = { height:1.8, speed:0.2, turnSpeed:Math.PI*0.02 };
+
+//Declaration de la scene
+scene = new THREE.Scene();
+
+//Lumière ambiante
+var ambientLight = new THREE.AmbientLight( 0xffffff );
+scene.add( ambientLight );
+
+//Initialisation du renderer
+renderer = new THREE.WebGLRenderer();
+renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setSize( window.innerWidth, window.innerHeight );
+container.appendChild( renderer.domElement );
+
+//Resize de la fenetre + mouvements
+window.addEventListener( 'resize', onWindowResize, false );
+window.addEventListener('keydown', keyDown);
+window.addEventListener('keyup', keyUp);
+
+//Animation + mouvement clavier via appel a la méthode animate
+animate();
+
+//Fonction de resize de la fenetre
+function onWindowResize( event ) {
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+}
+
+//Animation + mouvement dans l'espace
+function animate() {
+	requestAnimationFrame( animate );
+	camera.lookAt( scene.position );
+	if(keyboard[90]){ // Z -> avant
+		camera.position.x -= Math.sin(camera.rotation.y) * player.speed;
+		camera.position.z -= -Math.cos(camera.rotation.y) * player.speed;
+	}
+	if(keyboard[83]){ // S -> arriere
+		camera.position.x += Math.sin(camera.rotation.y) * player.speed;
+		camera.position.z += -Math.cos(camera.rotation.y) * player.speed;
+	}
+	if(keyboard[81]){ // Q -> gauche
+		camera.position.x += Math.sin(camera.rotation.y + Math.PI/2) * player.speed;
+		camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed;
+	}
+	if(keyboard[68]){ // D -> droite
+		camera.position.x += Math.sin(camera.rotation.y - Math.PI/2) * player.speed;
+		camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed;
+	}
+
+	if(keyboard[37]){ // left arrow key
+		camera.rotation.y -= player.turnSpeed;
+	}
+	if(keyboard[39]){ // right arrow key
+		camera.rotation.y += player.turnSpeed;
+	}
+	renderer.render(scene, camera);
+}
+
+//Appuyer sur une touche
+function keyDown(event){
+	keyboard[event.keyCode] = true;
+}
+
+//Relever une touche
+function keyUp(event){
+	keyboard[event.keyCode] = false;
+}
+					
+
+			  </code>
+           </pre>
+         </div>
+      <button class="accordion">Code source(MQTT)</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+		
+var bool, cpt, str;
+
+//Création du client MQTT
+client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
+
+//Initisalition des variables utiles
+bool=true;
+cpt=0;
+str="";
+
+//Fonction de la connection perdue
+client.onConnectionLost = function (responseObject){
+	//On affiche la raison
+	console.log("Connection perdue: "+responseObject.errorMessage);
+}
+
+//Fonction de la connection établie
+function onConnect(){
+	console.log("Connecte");
+	client.subscribe("JSONtemplate");
+}
+
+
+//Fonction de l'arrivée d'un message
+client.onMessageArrived = function (message) {
+	//Si c'est le premier message, on affiche la "taille" du JSON et on intilise la taille
+	if(bool==true){
+		console.log("taille : " + message.payloadString);
+		taille=parseInt(message.payloadString,10);
+		bool=false;
+	}else{
+	//Sinon, tant que tout le json n'est pas arrivé, on stock les messages dans un string
+			str+=message.payloadString;
+			cpt++;
+			console.log("compteur " + cpt);
+			if(cpt==taille){
+				//Une fois le string rempli, on appel la fonction de création de l'objet
+				createJsonObject();
+			}
+
+	}
+}
+
+//Fonction de création du JSON
+function createJsonObject(){
+	//On crée l'objet a partir du string
+	obj=JSON.parse(str);
+	//On utilise un Loader pour modeliser l'objet
+	var loader = new THREE.JSONLoader();
+	var model = loader.parse( obj );
+	var material = model.materials[ 0 ];
+	material.morphTargets = true;
+	//On créer l'objet Mesh
+	mesh = new THREE.Mesh( model.geometry, material );
+	mesh.scale.set( 0.01, 0.01, 0.01 );
+	mesh.matrixAutoUpdate = false;
+	mesh.updateMatrix();
+	//On l'ajoute a la scène
+	scene.add( mesh );
+}
+client.connect({onSuccess: onConnect});
+				
+
+              </code>
+           </pre>
+         </div>
+      <a href="../index.nginx-debian.html">Accueil</a>
+    </div>
+	<div id="main">
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+    </div>
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "50%";
+        document.getElementById("main").style.marginRight = "50%";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginRight= "0";
+    }
+    </script>
+    <script>
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.display){
+            panel.style.display = null;
+          } else {
+            panel.style.display = "block";
+          } 
+        });
+      }
+    </script>
 	<body>
 
 		<div id="container"></div>
 		<div id="info">
-			PTUT SciVisu - template JSON
+			<a href="../index.nginx-debian.html">PTUT SciVisu - template JSON</a>
 		</div>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="http://mrdoob.github.com/three.js/build/three.min.js"></script>
