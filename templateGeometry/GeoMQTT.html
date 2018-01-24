@@ -22,6 +22,12 @@
 			}
 		</style>
 		<meta charset="utf-8">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"</script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="./js/lib/three.min.js"></script>
+		<script src="./js/lib/OrbitControls.js"></script>
+		<script src="./js/lib/dat.gui.min.js"></script>
+		<script src="./js/lib/Raycaster.js"></script>
 	</head>
 <body>
 	<div id="mySidenav" class="sidenav">
@@ -82,12 +88,7 @@ ombreCast, ombreReceive){
 	<!--FIN SIDENAV-->
 	
 	<div id="container" style="width: 640px; height: 480px; background-color: #000000;"></div>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"</script>
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="./js/lib/three.min.js"></script>
-	<script src="./js/lib/OrbitControls.js"></script>
-	<script src="./js/lib/dat.gui.min.js"></script>
-	<script src="./js/lib/Raycaster.js"></script>
+	
 	<script type="text/javascript">
 	var renderer, scene, camera, mesh;
 	var sac3DObject; // contient tous les objects 3d de la scene
@@ -95,6 +96,8 @@ ombreCast, ombreReceive){
 	var options;
 	var SELECTED;
 	var idObjectSelection=0;
+	var raycaster = new THREE.Raycaster();
+	var mouse = new THREE.Vector2();
 
 
 	init();
@@ -139,7 +142,7 @@ ombreCast, ombreReceive){
 		
 		
 		//action de la souris
-	
+		window.addEventListener( 'mousedown', onMouseDown, false );
 		//premier rendu
 		render();
 
@@ -307,6 +310,20 @@ var sc, x, y, z, detruire,col,rst,idm;
 				menuP.open();
 		}
 
+	}
+
+	function onMouseDown( event ){
+		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+		raycaster.setFromCamera(mouse, camera)//position du raycaster avec la camera et la position de la souris
+		var intersects = raycaster.intersectObjects( sac3DObject.children );
+		if( intersects.length>0){
+			var intersect = intersects[ 0 ];
+			var id = intersect.object.id;
+			var idSac = id-9;
+			selectObject(idSac);
+		}
+		
 	}
 
 	////////////////////////////////////////
