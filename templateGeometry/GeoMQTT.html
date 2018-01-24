@@ -209,10 +209,26 @@ client.onMessageArrived = function (message) {
            </pre>
          </div>
 		 
+		 <button class="accordion">Commande (MQTT)</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+		 //Creation objet : commande => cr [BoxGeometry|SphereGeometry|PlaneGeometry|PointGeometry]
+		//Entrer position : commande => pos id x.y.z
+		//Entrer l'echele : commande => scl id scale
+		//Changer couleur : commande => col id hexa
+		//Selectionner un objet : commande => select id
+		//Ouvrir menu avec l'id et tout parametre
+		//detruire un objet : commande => delete id
+			  </code>
+           </pre>
+         </div>
+		
+		 
       <a href="../index.nginx-debian.html">Accueil</a>
     </div>
 	<div id="main">
-      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
     </div>
 
     <script>
@@ -243,7 +259,10 @@ client.onMessageArrived = function (message) {
       }
     </script>
 	<!--///////////////////////////////////////////////////////FIN SIDENAV///////////////////////////////////////////////////-->
-	
+	<div id="info">
+		PTUT SciVisu - Template Géometrie
+		(Voir commande dans menu)
+	</div>
 	<div id="container" style="width: 640px; height: 480px; background-color: #000000;"></div>
 	
 	<script type="text/javascript">
