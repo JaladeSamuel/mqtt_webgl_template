@@ -33,25 +33,189 @@
 	<div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-      <button class="accordion">Section 1</button>
+      <button class="accordion">AjoutObjectGeometry</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-function createCube(size,colors,posX, posY, posZ, 
-ombreCast, ombreReceive){
-  mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(size, size, size),
-    new THREE.MeshPhongMaterial({ color: colors })
-  );
-  mesh.position.set(posX, posY, posZ);
-  mesh.receiveShadow = ombreReceive;
-  mesh.castShadow = ombreCast;
-  tabObject.push(mesh);
-  scene.add(mesh);
-}
+function AjoutObjectGeometry(valEnvoi){
+		geometry = TrouverGeometrieCorres(valEnvoi);
+		if(valEnvoi=='PointGeometry'){
+			geometry.vertices.push(new THREE.Vector3( 0, 0, 0));
+			var material = new THREE.PointsMaterial({color : 0xffff00,size: 100});
+			mesh = new THREE.Points( geometry, material );
+			sac3DObject.add( mesh );
+		}else{
+			var material = new THREE.MeshBasicMaterial({color : 0xffff00, wireframe: false});
+			mesh=new THREE.Mesh(geometry, material);
+			sac3DObject.add(mesh);
+		}
+		console.log(sac3DObject.children.length);
+	}
               </code>
            </pre>
          </div>
+		 
+	   <button class="accordion">TrouverGeometrieCorres</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+    Trouve le THREEGeometry correspondant à la demande
+    function TrouverGeometrieCorres(vEnvoi){
+		var tabGeometries = [
+		{ type: 'BoxGeometry', geometry: new THREE.BoxGeometry( 200, 200, 200, 2, 2, 2 )},
+		{ type: 'SphereGeometry', geometry: new THREE.SphereGeometry( 100, 12, 12 ) },
+		{ type: 'PlaneGeometry', geometry: new THREE.PlaneGeometry( 200, 200, 200 ) },
+		{ type: 'PointGeometry', geometry: new THREE.Geometry()}
+		];
+		var vgeometry = tabGeometries[0].geometry;
+		for(var i=0; i&lt;tabGeometries.length;i++){
+			if(tabGeometries[i].type==vEnvoi){
+				vgeometry=tabGeometries[i].geometry;
+			}
+		}
+		return vgeometry;
+	}
+              </code>
+           </pre>
+         </div>
+		 
+	   <button class="accordion">setPosition</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+function setPosition(id1,valx,valy,valz){
+		//console.log(id);
+		var object = sac3DObject.getObjectById(sac3DObject.children[id1].id);
+		console.log(object);
+		object.position.set( valx, valy,valz );
+	}
+              </code>
+           </pre>
+         </div>
+		 
+		<button class="accordion">setScale</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+function setScale(id2,val){
+		var object = sac3DObject.getObjectById(sac3DObject.children[id2].id);
+		object.scale.set( val, val, val );
+	}
+              </code>
+           </pre>
+         </div>
+		 
+		<button class="accordion">setColor</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+function setColor(id3,val){
+		var object = sac3DObject.getObjectById(sac3DObject.children[id3].id);
+		object.material.color.setHex( val.replace("#","0x") );
+	}
+              </code>
+           </pre>
+         </div>
+		 
+		<button class="accordion">deleteElement</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+function deleteElement(id3){
+		var object = sac3DObject.getObjectById(sac3DObject.children[id3].id);
+		object.geometry.dispose();
+		sac3DObject.remove(object);
+		console.log(sac3DObject.children.length);
+		if((id3==0)&&(sac3DObject.children.length!==0)){menuUpdate(id3);}else if(id3>0){menuUpdate(id3-1);}else{menuP.close();}
+		
+	}
+              </code>
+           </pre>
+         </div>
+		 
+		 <button class="accordion">Menu</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+function retablirMenu(valSc,valx,valy,valz){
+		options.scale = valSc;
+		options.x = valx;
+		options.y = valy;
+		options.z = valz;
+	}
+
+	function resetMenu(idObjectSelection){
+		options.id = idObjectSelection;
+		options.scale = 1;
+		options.x = 0;
+		options.y = 0;
+		options.z = 0;
+		options.color = "#ff0000";
+	}
+
+	function resetElement(idObjectSelection){
+		options.scale = 1;
+		options.x = 0;
+		options.y = 0;
+		options.z = 0;
+		options.color = "#ff0000";
+		setScale(idObjectSelection,options.scale)
+		setPosition(idObjectSelection,options.x,options.y,options.z)
+		setColor(idObjectSelection,options.color);
+	}        
+	
+			</code>
+           </pre>
+         </div>
+		 
+		 <button class="accordion">MQTT message(lib Paho)</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+client.onMessageArrived = function (message) {
+						console.log("Message arrive: " + message.payloadString);
+						console.log("Topic:     " + message.destinationName);
+						var msg=message.payloadString;
+					
+
+
+						var tab=msg.split(" ");
+
+						if(tab[0]=="cr"){
+							var vgeo = tab[1];
+							AjoutObjectGeometry(vgeo);
+							cpt = cpt + 1;
+						}else if(tab[0]=="pos"){
+							var vdonnee = tab[1].split(" ");
+							var vid = vdonnee[0];
+							console.log(vdonnee[0]);
+							var vpos = tab[2].split(".");
+							var vx = vpos[0];
+							var vy = vpos[1];
+							var vz = vpos[2];
+							setPosition(vid,vx,vy,vz);
+						}else if(tab[0]== "select" ){
+							var vid = tab[1];
+							selectObject(vid,lastSelect);
+
+						}else if(tab[0]=="delete"){
+							var vid = tab[1];
+							deleteElement(vid);
+						}else if(tab[0]=="scl"){
+							var vid = tab[1];
+							var vscale = tab[2];
+							setScale(vid,vscale);
+						}else if(tab[0]=="col"){
+							var id = tab[1];
+							var color = tab[2];
+							setColor(id,color);
+						}
+			}  
+	
+			</code>
+           </pre>
+         </div>
+		 
       <a href="../index.nginx-debian.html">Accueil</a>
     </div>
 	<div id="main">
@@ -85,7 +249,7 @@ ombreCast, ombreReceive){
         });
       }
     </script>
-	<!--FIN SIDENAV-->
+	<!--///////////////////////////////////////////////////////FIN SIDENAV///////////////////////////////////////////////////-->
 	
 	<div id="container" style="width: 640px; height: 480px; background-color: #000000;"></div>
 	
@@ -319,9 +483,13 @@ var sc, x, y, z, detruire,col,rst,idm;
 		var intersects = raycaster.intersectObjects( sac3DObject.children );
 		if( intersects.length>0){
 			var intersect = intersects[ 0 ];
-			var id = intersect.object.id;
-			var idSac = id-9;
-			selectObject(idSac);
+            var id = intersect.object.id;
+            var idSac=0;
+            for(var i=0;i<sac3DObject.children.length;i++){
+                if(sac3DObject.children[i].id==id){
+                    idSac=i;
+                }
+            }
 		}
 		
 	}
