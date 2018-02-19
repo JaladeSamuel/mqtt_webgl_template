@@ -522,23 +522,36 @@ var sc, x, y, z, detruire,col,rst,idm;
 			client.onConnectionLost = function (responseObject){
 				console.log("Connection perdue: "+responseObject.errorMessage);
 			}
-
 			function onConnect(){
 				console.log("Connecte");
 				client.subscribe("templateGeo");
-				client.subscribe("/geometry/obj/create");
-				client.subscribe("/geometry/obj/delete");
+				client.subscribe("templateGeo/obj/create/"); 
+				client.subscribe("templateGeo/obj/delete/"); 
 			}
-			
 			client.connect({onSuccess: onConnect});
+			
 			
 			client.onMessageArrived = function (message) {
 						console.log("Message arrive: " + message.payloadString);
 						console.log("Topic:     " + message.destinationName);
 						var msg=message.payloadString;
 						var tab=msg.split(" ");
-
-						if(tab[0]=="cr"){
+						var destination=message.destinationName;
+						console.log(destination);
+						switch(destination){
+							case "templateGeo/obj/create/":
+								console.log(cpt);
+								console.log(msg);
+								break;
+							case "templateGeo/obj/delete/":
+								console.log(cpt);
+								console.log(msg);
+								break;
+						}
+								
+						
+						
+						/*if(tab[0]=="cr"){
 							var vgeo = tab[1];
 							AjoutObjectGeometry(vgeo);
 							cpt = cpt + 1;
@@ -566,7 +579,7 @@ var sc, x, y, z, detruire,col,rst,idm;
 							var id = tab[1];
 							var color = tab[2];
 							setColor(id,color);
-						}
+						}*/
 			}
 
 
