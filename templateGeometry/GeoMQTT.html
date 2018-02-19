@@ -517,30 +517,25 @@ var sc, x, y, z, detruire,col,rst,idm;
 	//Selectionner un objet : commande => select id
 	//Ouvrir menu avec l'id et tout parametre  
 	//detruire un objet : commande => delete id
-		client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"templateGeo");
-
+			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"templateGeo");
 			var cpt = 0;
 			client.onConnectionLost = function (responseObject){
 				console.log("Connection perdue: "+responseObject.errorMessage);
 			}
 
-
-
-
 			function onConnect(){
 				console.log("Connecte");
 				client.subscribe("templateGeo");
+				client.subscribe("/geometry/obj/create");
+				client.subscribe("/geometry/obj/delete");
 			}
-
+			
 			client.connect({onSuccess: onConnect});
-
+			
 			client.onMessageArrived = function (message) {
 						console.log("Message arrive: " + message.payloadString);
 						console.log("Topic:     " + message.destinationName);
 						var msg=message.payloadString;
-					
-
-
 						var tab=msg.split(" ");
 
 						if(tab[0]=="cr"){
