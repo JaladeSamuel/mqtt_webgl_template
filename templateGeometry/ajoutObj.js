@@ -38,7 +38,7 @@ function TrouverGeometrieCorres(vEnvoi) {
         }
     ];
     var vgeometry = tabGeometries[0].geometry;
-    for (var i = 0; i & lt; tabGeometries.length; i++) {
+    for (var i = 0; i < tabGeometries.length; i++) {
         if (tabGeometries[i].type == vEnvoi) {
             vgeometry = tabGeometries[i].geometry;
         }
