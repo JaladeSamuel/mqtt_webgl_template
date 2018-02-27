@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="../css/sidenav.css" rel="stylesheet">
+		<title>template OBJ</title>
+		<meta charset="utf-8">
+		<style>
+			body {
+				background:black;
+				padding:0;
+				margin:0;
+				font-weight: bold;
+				overflow:hidden;
+			}
+
+			#info {
+				position: absolute;
+				top: 0px;
+				width: 100%;
+				color: #ffffff;
+				text-align:center;
+			}
+		</style>
+		<meta charset="utf-8">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"</script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="../js/three.min.js"></script>
+		<script src="../js/OrbitControls.js"></script>
+		<script src="../js/dat.gui.min.js"></script>
+	</head>
+<body>
+	<div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+      <button class="accordion">Create</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+---
+              </code>
+           </pre>
+         </div>
+
+	   <button class="accordion">Position</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+---
+              </code>
+           </pre>
+         </div>
+
+		<button class="accordion">Size</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+---
+              </code>
+           </pre>
+         </div>
+
+		<button class="accordion">Color</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+
+              </code>
+           </pre>
+         </div>
+
+		<button class="accordion">Delete</button>
+        <div class="panel" style="background-color: #000000;">
+           <pre>
+              <code class="js">
+---
+              </code>
+           </pre>
+         </div>
+      <a href="../index.nginx-debian.html">Accueil</a>
+    </div>
+	<div id="main">
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+    </div>
+
+    	<script src="nav.js"></script>
+	<!--///////////////////////////////////////////////////////FIN SIDENAV///////////////////////////////////////////////////-->
+	<div id="info">
+		PTUT SciVisu - Template Géometrie
+	</div>
+	<div id="container" style="width: 640px; height: 480px; background-color: #000000;"></div>
+	<script src="init.js"></script>
+
+	<script src="menu.js"></script>
+	<script src="ajoutObj.js"></script>
+	<script src="traitementObj.js"></script>
+	<script src="mqtt.js"></script>
+</body>
+</html>

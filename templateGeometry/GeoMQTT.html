@@ -51,7 +51,7 @@ function AjoutObjectGeometry(valEnvoi){
 		}
 		console.log(sac3DObject.children.length);
 	}
-	
+
 Trouve le THREEGeometry correspondant à la demande
     function TrouverGeometrieCorres(vEnvoi){
 		var tabGeometries = [
@@ -71,7 +71,7 @@ Trouve le THREEGeometry correspondant à la demande
               </code>
            </pre>
          </div>
-		 
+
 	   <button class="accordion">setPosition</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -85,7 +85,7 @@ function setPosition(id1,valx,valy,valz){
               </code>
            </pre>
          </div>
-		 
+
 		<button class="accordion">setScale</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -97,7 +97,7 @@ function setScale(id2,val){
               </code>
            </pre>
          </div>
-		 
+
 		<button class="accordion">setColor</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -109,7 +109,7 @@ function setColor(id3,val){
               </code>
            </pre>
          </div>
-		 
+
 		<button class="accordion">deleteElement</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -120,12 +120,12 @@ function deleteElement(id3){
 		sac3DObject.remove(object);
 		console.log(sac3DObject.children.length);
 		if((id3==0)&&(sac3DObject.children.length!==0)){menuUpdate(id3);}else if(id3>0){menuUpdate(id3-1);}else{menuP.close();}
-		
+
 	}
               </code>
            </pre>
          </div>
-		 
+
 		 <button class="accordion">Menu</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -155,12 +155,12 @@ function retablirMenu(valSc,valx,valy,valz){
 		setScale(idObjectSelection,options.scale)
 		setPosition(idObjectSelection,options.x,options.y,options.z)
 		setColor(idObjectSelection,options.color);
-	}        
-	
+	}
+
 			</code>
            </pre>
          </div>
-		 
+
 		 <button class="accordion">MQTT message(lib Paho)</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -169,7 +169,7 @@ client.onMessageArrived = function (message) {
 						console.log("Message arrive: " + message.payloadString);
 						console.log("Topic:     " + message.destinationName);
 						var msg=message.payloadString;
-					
+
 
 
 						var tab=msg.split(" ");
@@ -203,12 +203,12 @@ client.onMessageArrived = function (message) {
 							var color = tab[2];
 							setColor(id,color);
 						}
-			}  
-	
+			}
+
 			</code>
            </pre>
          </div>
-		 
+
 		 <button class="accordion">Commande (MQTT)</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
@@ -223,8 +223,8 @@ client.onMessageArrived = function (message) {
 			  </code>
            </pre>
          </div>
-		
-		 
+
+
       <a href="../index.nginx-debian.html">Accueil</a>
     </div>
 	<div id="main">
@@ -254,7 +254,7 @@ client.onMessageArrived = function (message) {
             panel.style.display = null;
           } else {
             panel.style.display = "block";
-          } 
+          }
         });
       }
     </script>
@@ -264,7 +264,7 @@ client.onMessageArrived = function (message) {
 		(Voir commande dans menu topic : TemplateGeo)
 	</div>
 	<div id="container" style="width: 640px; height: 480px; background-color: #000000;"></div>
-	
+
 	<script type="text/javascript">
 	var renderer, scene, camera, mesh;
 	var sac3DObject; // contient tous les objects 3d de la scene
@@ -301,10 +301,10 @@ client.onMessageArrived = function (message) {
 		////////////////
 		//menu de base//
 		////////////////
-		
+
 		gui = new dat.GUI({width: 350});
 		menuP=gui.addFolder('Parametre de l element');
-		options={ 
+		options={
 					element: 0,
 					ids: idObjectSelection,
 					scale: 0.1,
@@ -313,10 +313,10 @@ client.onMessageArrived = function (message) {
 					reset : function(){},
 					detruire: function(){}
 			};
-		
 
-		
-		
+
+
+
 		//action de la souris
 		window.addEventListener( 'mousedown', onMouseDown, false );
 		//premier rendu
@@ -327,7 +327,7 @@ client.onMessageArrived = function (message) {
 
 
 	function render(){
-		
+
 		renderer.render(scene, camera);
 
 	}
@@ -406,7 +406,7 @@ client.onMessageArrived = function (message) {
 		sac3DObject.remove(object);
 		console.log(sac3DObject.children.length);
 		if((id3==0)&&(sac3DObject.children.length!==0)){menuUpdate(id3);}else if(id3>0){menuUpdate(id3-1);}else{menuP.close();}
-		
+
 	}
 
 	function retablirMenu(valSc,valx,valy,valz){
@@ -438,7 +438,7 @@ client.onMessageArrived = function (message) {
 
 	function selectObject(id){
 			var object = sac3DObject.getObjectById(sac3DObject.children[id].id);
-			
+
 			if(SELECTED !== object){
 				if(SELECTED) SELECTED.material.color.set(0xff0000);
 					SELECTED = object;
@@ -446,13 +446,13 @@ client.onMessageArrived = function (message) {
 					options.ids=idObjectSelection;
 					SELECTED.material.color.set(0xffffff);
 			}
-			
+
 			menuOnSelectGeometry(idObjectSelection);
 	}
 
 //Ouvre un menu base sur l'objet selectionné
 var sc, x, y, z, detruire,col,rst,idm;
-	function menuOnSelectGeometry(idObjectSelection){	
+	function menuOnSelectGeometry(idObjectSelection){
 
 		if(menuP.__controllers.length==0){
 			idm=menuP.add( options, 'ids').listen().onChange( function( value ) { options.ids=idObjectSelection} );
@@ -504,7 +504,7 @@ var sc, x, y, z, detruire,col,rst,idm;
             }
 			selectObject(idSac);
 		}
-		
+
 	}
 
 	////////////////////////////////////////
@@ -515,7 +515,7 @@ var sc, x, y, z, detruire,col,rst,idm;
 	//Entrer l'echele : commande => scl id scale
 	//Changer couleur : commande => col id hexa
 	//Selectionner un objet : commande => select id
-	//Ouvrir menu avec l'id et tout parametre  
+	//Ouvrir menu avec l'id et tout parametre
 	//detruire un objet : commande => delete id
 			client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"templateGeo");
 			var cpt = 0;
@@ -525,12 +525,12 @@ var sc, x, y, z, detruire,col,rst,idm;
 			function onConnect(){
 				console.log("Connecte");
 				client.subscribe("templateGeo");
-				client.subscribe("templateGeo/obj/create/"); 
-				client.subscribe("templateGeo/obj/delete/"); 
+				client.subscribe("templateGeo/obj/create/");
+				client.subscribe("templateGeo/obj/delete/");
 			}
 			client.connect({onSuccess: onConnect});
-			
-			
+
+
 			client.onMessageArrived = function (message) {
 						console.log("Message arrive: " + message.payloadString);
 						console.log("Topic:     " + message.destinationName);
@@ -548,9 +548,9 @@ var sc, x, y, z, detruire,col,rst,idm;
 								console.log(msg);
 								break;
 						}
-								
-						
-						
+
+
+
 						/*if(tab[0]=="cr"){
 							var vgeo = tab[1];
 							AjoutObjectGeometry(vgeo);
