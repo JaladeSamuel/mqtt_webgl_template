@@ -16,7 +16,6 @@ function AjoutObjectGeometry(valEnvoi) {
         mesh = new THREE.Mesh(geometry, material);
         sac3DObject.add(mesh);
     }
-    console.log(sac3DObject.children.length);
 }
 
 function TrouverGeometrieCorres(vEnvoi) {
