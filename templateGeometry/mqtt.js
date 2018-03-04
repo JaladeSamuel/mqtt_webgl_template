@@ -49,7 +49,8 @@ client.onMessageArrived = function (message) {
 					//Retour de l'ID en MQTT
 					//a faire
 					console.log("PUSH");
-					var msage = new Paho.MQTT.Message(cpt);
+					var str = toString(cpt);
+					var msage = new Paho.MQTT.Message(str);
 					msage.destinationName = "templateGeo/ID/";
 					msage.qos = 0;
 					clientP.send(msage);
