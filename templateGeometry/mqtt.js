@@ -1,5 +1,4 @@
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"templateGeo");
-clientP = new Paho.MQTT.Client("91.224.148.106", Number(2532),"templateGeo");
 var cpt = 0;
 client.onConnectionLost = function (responseObject){
 	console.log("Connection perdue: "+responseObject.errorMessage);
@@ -48,12 +47,10 @@ client.onMessageArrived = function (message) {
 					}
 					//Retour de l'ID en MQTT
 					//a faire
-					console.log("PUSH");
-					var str = toString(cpt);
-					var msage = new Paho.MQTT.Message(str);
+					console.log("PUSH ID on TOPIC : templateGeo/ID/");
+					msage = new Paho.MQTT.Message(''+cpt);
 					msage.destinationName = "templateGeo/ID/";
-					msage.qos = 0;
-					clientP.send(msage);
+					client.send(msage);
 					///
 					cpt = cpt + 1;
 					break;
