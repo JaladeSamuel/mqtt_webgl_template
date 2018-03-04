@@ -6,6 +6,7 @@ var SELECTED;
 var idObjectSelection = 0;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
+var animation="on";
 
 init();
 animate();
@@ -63,9 +64,11 @@ function animate() {
     } else {
         var i = 0;
         var nbChildren = sac3DObject.children.length;
-        for (i = 0; i < nbChildren; i++) {
-            sac3DObject.children[i].rotation.x += 0.01; //tourne le dernier mesh crée
-            sac3DObject.children[i].rotation.y += 0.02;
+        if(animation=="on"){
+          for (i = 0; i < nbChildren; i++) {
+              sac3DObject.children[i].rotation.x += 0.01; //tourne le dernier mesh crée
+              sac3DObject.children[i].rotation.y += 0.02;
+          }
         }
         render();
     }

@@ -28,3 +28,31 @@ function deleteElement(id3) {
         menuP.close();
     }
 }
+
+function positionScene(axe,number){
+  var x = camera.position.x
+  var y = camera.position.y
+  var z = camera.position.z
+  switch(axe){
+    case "x":
+      camera.position.set(number, y, z);
+      break;
+    case "y":
+      camera.position.set(x, number, z);
+      break;
+    case "z":
+      camera.position.set(x, y, number);
+      break;
+    default:
+      camera.position.set(x, y, z);
+      break;
+  }
+}
+
+function rotateScene(mode){
+  if(mode=="on"){
+    animation="on";
+  }else if(mode=="off"){
+    animation="off;"
+  }
+}

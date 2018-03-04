@@ -6,7 +6,7 @@ client.onConnectionLost = function (responseObject){
 }
 function onConnect(){
 	console.log("Connecte");
-	client.subscribe("templateGeo");
+	client.subscribe("templateGeo/scene/");
 	client.subscribe("templateGeo/obj/create/");
 	client.subscribe("templateGeo/obj/delete/");
 	client.subscribe("templateGeo/obj/position/");
@@ -46,11 +46,14 @@ client.onMessageArrived = function (message) {
 							AjoutObjectGeometry("PointGeometry");
 							break;
 					}
+					//Retour de l'ID en MQTT
+					//a faire
 					console.log("PUSH");
 					var msage = new Paho.MQTT.Message(cpt);
 					msage.destinationName = "templateGeo/ID/";
 					msage.qos = 0;
 					clientP.send(msage);
+					///
 					cpt = cpt + 1;
 					break;
 				case "templateGeo/obj/delete/":
@@ -80,7 +83,7 @@ client.onMessageArrived = function (message) {
 					var tab=msg.split("/");
 					console.log("Color");
 					console.log("ID : "+tab[0]);
-					console.log("Color# :"+tab[1]);
+					console.log("Color :"+tab[1]);
 					setColor(tab[0],tab[1]);
 					break;
 				case "templateGeo/obj/select/":
@@ -88,42 +91,23 @@ client.onMessageArrived = function (message) {
 					console.log("ID : "+msg);
 					selectObject(msg,lastSelect);
 					break;
-				case "templateGeo":
-					console.log("TemplateGeo");
-					console.log(cpt);
-					console.log(msg);
+				case "templateGeo/scene/":
+					console.log("Scene");
+					console.log("Message : "+msg);
+					var tab=msg.split("/");
+					switch(tab[0]){
+						case "x":
+						case "y":
+						case "z":
+							positionScene(tab[0],tab[1]);
+							break;
+						case"rotate":
+							rotateScene(tab[1]);
+							break;
+
+
+					}
+
 					break;
 			}
-
-
-
-			/*if(tab[0]=="cr"){
-				var vgeo = tab[1];
-				AjoutObjectGeometry(vgeo);
-				cpt = cpt + 1;
-			}else if(tab[0]=="pos"){
-				var vdonnee = tab[1].split(" ");
-				var vid = vdonnee[0];
-				console.log(vdonnee[0]);
-				var vpos = tab[2].split(".");
-				var vx = vpos[0];
-				var vy = vpos[1];
-				var vz = vpos[2];
-				setPosition(vid,vx,vy,vz);
-			}else if(tab[0]== "select" ){
-				var vid = tab[1];
-				selectObject(vid,lastSelect);
-
-			}else if(tab[0]=="delete"){
-				var vid = tab[1];
-				deleteElement(vid);
-			}else if(tab[0]=="scl"){
-				var vid = tab[1];
-				var vscale = tab[2];
-				setScale(vid,vscale);
-			}else if(tab[0]=="col"){
-				var id = tab[1];
-				var color = tab[2];
-				setColor(id,color);
-			}*/
 }
