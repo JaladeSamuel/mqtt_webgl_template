@@ -49,7 +49,7 @@ retour de l'ID de l'objet créé sur le topic "templateGeo/ID/"
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/position/{id}/x,y,z
+topic : templateGeo/obj/position/{{id}/{x,y,z}}
               </code>
            </pre>
          </div>
@@ -58,7 +58,7 @@ topic : templateGeo/obj/position/{id}/x,y,z
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/scale/{id}/x
+topic : templateGeo/obj/scale/{{id}/{x}}
               </code>
            </pre>
          </div>
@@ -67,7 +67,7 @@ topic : templateGeo/obj/scale/{id}/x
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/color/{id}/{#Color en Hexa}
+topic : templateGeo/obj/color/{{id}/{#Color en Hexa}}
               </code>
            </pre>
          </div>
@@ -93,7 +93,8 @@ topic : templateGeo/obj/select/{id}
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/scene/{x|y|z}/nombre
+topic : templateGeo/scene/{{x|y|z}/{nombre}}
+topic : templateGeo/scene/{rotate/{on|off}}
               </code>
            </pre>
          </div>
