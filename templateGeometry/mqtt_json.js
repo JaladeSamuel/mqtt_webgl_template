@@ -1,4 +1,5 @@
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"templateGeo");
+client.connect({userName : "ptut",password : "ptut",onSuccess:onConnect});
 var cpt = 0;
 client.onConnectionLost = function (responseObject){
 	console.log("Connection perdue: "+responseObject.errorMessage);
@@ -9,7 +10,6 @@ function onConnect(){
 	client.subscribe("templateGeo/retourID/");
 	client.subscribe("templateGeo/scene/");
 }
-client.connect({onSuccess: onConnect});
 
 
 client.onMessageArrived = function (message) {
@@ -22,26 +22,29 @@ client.onMessageArrived = function (message) {
 				console.log("Arrivé d'un ID apres création");
 				console.log("ID :"+msg);
 			}else if(splitTopic[1]=="scene"){
+				obj = JSON.parse(msg);
 				console.log("Scene");
-				console.log("Message : "+msg);
-				var tab=msg.split("/");
-				switch(tab[0]){
-					case "x":
-					case "y":
-					case "z":
-						positionScene(tab[0],tab[1]);
-						break;
-					case"rotate":
-						rotateScene(tab[1]);
-						break;
-					}
+				console.log("Message : "+obj);
+				if(obj.x!="null"){
+					positionScene("x",obj.x);
+				}
+				if(obj.y!="null"){
+					positionScene("y",obj.y);
+				}
+				if(obj.z!="null"){
+					positionScene("z",obj.z);
+				}
+				if(obj.rotate!="null"){
+					rotateScene(obj.rotate);
+				}
 			}else{
 				switch(splitTopic[2]){
 					case "create":
+						obj = JSON.parse(msg);
 						console.log("Create");
 						console.log("Objet : "+msg);
 						console.log("ID de l'objet : " +cpt);
-						switch(msg){
+						switch(obj.shape){
 							case "Cube" :
 								AjoutObjectGeometry("BoxGeometry");
 								break;
@@ -61,7 +64,38 @@ client.onMessageArrived = function (message) {
 						client.subscribe("templateGeo/obj/color/"+cpt+"/");
 						client.subscribe("templateGeo/obj/select/"+cpt+"/");
 						client.subscribe("templateGeo/obj/json/"+cpt+"/");
-						//Retour de l'ID
+						if(obj.position!="null"){
+							tabpos = obj.position.split(",");
+							console.log("x  "+tabpos[0]);
+							console.log("y  "+tabpos[1]);
+							console.log("z  "+tabpos[2]);
+							stringPos = '{ "position_x":"'+tabpos[0]+'","position_y":"'+tabpos[1]+'","position_z":"'+tabpos[2]+'"}';
+							mPos = new Paho.MQTT.Message(stringPos);
+							var topicPosition = "templateGeo/obj/position/"+cpt+"/";
+							mPos.destinationName = topicPosition;
+							client.send(mPos);
+						}
+						if(obj.color!="null"){
+							stringClr = '{ "color":"'+obj.color+'"}';
+							mClr = new Paho.MQTT.Message(stringClr);
+							var topicPosition = "templateGeo/obj/position/"+cpt+"/";
+							mClr.destinationName = topicColor;
+							client.send(mClr);
+						}
+						if(obj.scale!="null"){
+							stringScl = '{ "scale":"'+obj.scale+'"}';
+							mScl = new Paho.MQTT.Message(stringScl);
+							var topicScale = "templateGeo/obj/scale/"+cpt+"/";
+							mScl.destinationName = topicScale;
+							client.send(mScl);
+						}
+						if(obj.select=="1"){
+							mSlc = new Paho.MQTT.Message('');
+							var topicSelect = "templateGeo/obj/select/"+cpt+"/";
+							mSlc.destinationName = topicSelect;
+							client.send(mSlc);
+						}
+
 						console.log("PUSH ID on TOPIC : templateGeo/retourID/");
 						msage = new Paho.MQTT.Message(''+cpt);
 						msage.destinationName = "templateGeo/retourID/";
@@ -86,18 +120,31 @@ client.onMessageArrived = function (message) {
 							m.destinationName = topic;
 							client.send(m);
 						}else{
-							mPos = new Paho.MQTT.Message(obj.position);
-							mClr = new Paho.MQTT.Message(obj.color);
-							mScl = new Paho.MQTT.Message(obj.scale);
-							var topicPosition = "templateGeo/obj/position/"+idObj+"/";
-							var topicColor = "templateGeo/obj/color/"+idObj+"/";
-							var topicScale = "templateGeo/obj/scale/"+idObj+"/";
-							mPos.destinationName = topicPosition;
-							mClr.destinationName = topicColor;
-							mScl.destinationName = topicScale;
-							client.send(mPos);
-							client.send(mClr);
-							client.send(mScl);
+							if(obj.position!="null"){
+								tabpos = obj.position.split(",");
+								console.log("x  "+tabpos[0]);
+								console.log("y  "+tabpos[1]);
+								console.log("z  "+tabpos[2]);
+								stringPos = '{ "position_x":"'+tabpos[0]+'","position_y":"'+tabpos[1]+'","position_z":"'+tabpos[2]+'"}';
+								mPos = new Paho.MQTT.Message(stringPos);
+								var topicPosition = "templateGeo/obj/position/"+idObj+"/";
+								mPos.destinationName = topicPosition;
+								client.send(mPos);
+							}
+							if(obj.color!="null"){
+								stringClr = '{ "color":"'+obj.color+'"}';
+								mClr = new Paho.MQTT.Message(stringClr);
+								var topicPosition = "templateGeo/obj/position/"+idObj+"/";
+								mClr.destinationName = topicColor;
+								client.send(mClr);
+							}
+							if(obj.scale!="null"){
+								stringScl = '{ "scale":"'+obj.scale+'"}';
+								mScl = new Paho.MQTT.Message(stringScl);
+								var topicScale = "templateGeo/obj/scale/"+idObj+"/";
+								mScl.destinationName = topicScale;
+								client.send(mScl);
+							}
 							if(obj.select=="1"){
 								mSlc = new Paho.MQTT.Message('');
 								var topicSelect = "templateGeo/obj/select/"+idObj+"/";
@@ -105,32 +152,35 @@ client.onMessageArrived = function (message) {
 								client.send(mSlc);
 							}
 						}
-
 						break;
 					case "position":
 						var idObj=splitTopic[3];
+						obj = JSON.parse(msg);
 						console.log("Position");
 						console.log("ID : "+idObj);
-						console.log("Positions :"+msg);
-						var vpos=msg.split(",");
-						var vx = vpos[0];
-						var vy = vpos[1];
-						var vz = vpos[2];
+						console.log("Positions :"+obj);
+						var vx = obj.position_x;
+						var vy = obj.position_y;
+						var vz = obj.position_z;
 						setPosition(idObj,vx,vy,vz);
 						break;
 					case "scale":
 					  var idObj=splitTopic[3];
+						obj = JSON.parse(msg);
 						console.log("Scale");
 						console.log("ID : "+idObj);
-						console.log("Echelle :"+msg);
-						setScale(idObj,msg);
+						console.log("Echelle :"+obj);
+						var scaling = obj.scale;
+						setScale(idObj,scaling);
 						break;
 					case "color":
 						var idObj=splitTopic[3];
+						obj = JSON.parse(msg);
 						console.log("Color");
 						console.log("ID : "+idObj);
-						console.log("Color :"+msg);
-						setColor(idObj,msg);
+						console.log("Color :"+obj);
+						var couleur = obj.color;
+						setColor(idObj,couleur);
 						break;
 					case "select":
 						var idObj=splitTopic[3];
@@ -139,9 +189,5 @@ client.onMessageArrived = function (message) {
 						selectObject(idObj,lastSelect);
 						break;
 				}
-
 			}
-			console.log("________________________________");
-			console.log("________________________________");
-
 }
