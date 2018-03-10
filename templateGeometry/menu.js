@@ -11,7 +11,6 @@ function resetMenu(idObjectSelection) {
     options.x = 0;
     options.y = 0;
     options.z = 0;
-    options.color = "#ff0000";
 }
 
 function resetElement(idObjectSelection) {
@@ -19,14 +18,14 @@ function resetElement(idObjectSelection) {
     options.x = 0;
     options.y = 0;
     options.z = 0;
-    options.color = "#ff0000";
     setScale(idObjectSelection, options.scale)
     setPosition(idObjectSelection, options.x, options.y, options.z)
-    setColor(idObjectSelection, options.color);
+    setColor(idObjectSelection, 0xffff00);
 }
 
 function selectObject(id) {
-    var object = sac3DObject.getObjectById(sac3DObject.children[id].id);
+    console.log(id);
+    var object = sac3DObject.getObjectById(id);
 
     if (SELECTED !== object) {
         if (SELECTED) SELECTED.material.color.set(0xff0000);
@@ -40,7 +39,7 @@ function selectObject(id) {
 }
 
 //Ouvre un menu base sur l'objet selectionné
-var sc, x, y, z, detruire, col, rst, idm;
+var sc, x, y, z, detruire,rst, idm;
 
 function menuOnSelectGeometry(idObjectSelection) {
 
@@ -61,9 +60,6 @@ function menuOnSelectGeometry(idObjectSelection) {
         z = menuP.add(options, 'z').min(-900).max(900).listen().onChange(function(value) {
             setPosition(idObjectSelection, options.x, options.y, options.z);
         });
-        col = menuP.addColor(options, 'color').name('color').listen().onChange(function(value) {
-            setColor(idObjectSelection, options.color);
-        });
         rst = menuP.add(options, 'reset').name("Reset Element").listen().onChange(function(value) {
             resetElement(idObjectSelection);
         });
@@ -80,7 +76,7 @@ function menuOnSelectGeometry(idObjectSelection) {
 
 
 function menuUpdate(idObjectSelection) {
-    var object = sac3DObject.getObjectById(sac3DObject.children[idObjectSelection].id);
+    var object = sac3DObject.getObjectById(idObjectSelection);
     idm.onChange(function(value) {
         options.ids = idObjectSelection
     });
@@ -97,14 +93,11 @@ function menuUpdate(idObjectSelection) {
     z.onChange(function(value) {
         setPosition(idObjectSelection, options.x, options.y, options.z);
     });
-    col.onChange(function(value) {
-        setPosition(idObjectSelection, options.x, options.y, options.z);
-    });
     detruire.onChange(function(value) {
         deleteElement(idObjectSelection);
     });
     if ((object.position.x !== 0) || (object.position.y !== 0) || (object.position.z !== 0) || (object.scale.x !== 1)) {
-        retablirMenu(object.scale.x, object.position.x, object.position.y, object.position.z, object.material.color);
+        retablirMenu(object.scale.x, object.position.x, object.position.y, object.position.z);
         menuP.open();
     } else {
         resetMenu(idObjectSelection);

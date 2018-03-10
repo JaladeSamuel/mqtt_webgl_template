@@ -43,7 +43,6 @@ function init() {
         x: 0,
         y: 0,
         z: 0,
-        color: "#ff0000",
         reset: function() {},
         detruire: function() {}
     };
@@ -85,7 +84,7 @@ function onMouseDown(event) {
         var idSac = 0;
         for (var i = 0; i < sac3DObject.children.length; i++) {
             if (sac3DObject.children[i].id == id) {
-                idSac = i;
+                idSac = sac3DObject.children[i].id ;
             }
         }
         selectObject(idSac);

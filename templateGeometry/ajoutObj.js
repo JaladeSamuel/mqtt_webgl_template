@@ -7,6 +7,18 @@ function AjoutObjectGeometry(valEnvoi) {
             size: 100
         });
         mesh = new THREE.Points(geometry, material);
+        console.log(sac3DObject);
+        console.log(mesh);
+        sac3DObject.add(mesh);
+    }else if(valEnvoi == 'LineGeometry'){
+        geometry.vertices.push(
+            new THREE.Vector3( -500, 0, 0 ),
+            new THREE.Vector3( 500, 0, 0 )
+        );
+        var material = new THREE.LineBasicMaterial({
+            color: 0xffff00
+        });
+        mesh = new THREE.Line( geometry, material );
         sac3DObject.add(mesh);
     } else {
         var material = new THREE.MeshBasicMaterial({
@@ -15,7 +27,10 @@ function AjoutObjectGeometry(valEnvoi) {
         });
         mesh = new THREE.Mesh(geometry, material);
         sac3DObject.add(mesh);
+        console.log(sac3DObject);
+        
     }
+    return mesh.id;
 }
 
 function TrouverGeometrieCorres(vEnvoi) {
@@ -33,6 +48,10 @@ function TrouverGeometrieCorres(vEnvoi) {
         },
         {
             type: 'PointGeometry',
+            geometry: new THREE.Geometry()
+        },
+        {
+            type: 'LineGeometry',
             geometry: new THREE.Geometry()
         }
     ];
