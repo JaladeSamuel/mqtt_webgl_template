@@ -10,8 +10,6 @@ function onConnect(){
 	client.subscribe("templateGeo/retourID/");
 	client.subscribe("templateGeo/scene/");
 }
-
-
 client.onMessageArrived = function (message) {
 			var msg=message.payloadString;
 			var destination=message.destinationName;
@@ -114,43 +112,36 @@ client.onMessageArrived = function (message) {
 						console.log("ID : "+idObj);
 						console.log("MSSAGE :"+msg);
 						obj = JSON.parse(msg);
-						if(obj.delete=="1"){
-							m = new Paho.MQTT.Message('');
-							var topic = "templateGeo/obj/delete/"+idObj+"/";
-							m.destinationName = topic;
-							client.send(m);
-						}else{
-							if(obj.position!="null"){
-								tabpos = obj.position.split(",");
-								console.log("x  "+tabpos[0]);
-								console.log("y  "+tabpos[1]);
-								console.log("z  "+tabpos[2]);
-								stringPos = '{ "position_x":"'+tabpos[0]+'","position_y":"'+tabpos[1]+'","position_z":"'+tabpos[2]+'"}';
-								mPos = new Paho.MQTT.Message(stringPos);
-								var topicPosition = "templateGeo/obj/position/"+idObj+"/";
-								mPos.destinationName = topicPosition;
-								client.send(mPos);
-							}
-							if(obj.color!="null"){
-								stringClr = '{ "color":"'+obj.color+'"}';
-								mClr = new Paho.MQTT.Message(stringClr);
-								var topicPosition = "templateGeo/obj/position/"+idObj+"/";
-								mClr.destinationName = topicColor;
-								client.send(mClr);
-							}
-							if(obj.scale!="null"){
-								stringScl = '{ "scale":"'+obj.scale+'"}';
-								mScl = new Paho.MQTT.Message(stringScl);
-								var topicScale = "templateGeo/obj/scale/"+idObj+"/";
-								mScl.destinationName = topicScale;
-								client.send(mScl);
-							}
-							if(obj.select=="1"){
-								mSlc = new Paho.MQTT.Message('');
-								var topicSelect = "templateGeo/obj/select/"+idObj+"/";
-								mSlc.destinationName = topicSelect;
-								client.send(mSlc);
-							}
+						if(obj.position!="null"){
+							tabpos = obj.position.split(",");
+							console.log("x  "+tabpos[0]);
+							console.log("y  "+tabpos[1]);
+							console.log("z  "+tabpos[2]);
+							stringPos = '{ "position_x":"'+tabpos[0]+'","position_y":"'+tabpos[1]+'","position_z":"'+tabpos[2]+'"}';
+							mPos = new Paho.MQTT.Message(stringPos);
+							var topicPosition = "templateGeo/obj/position/"+idObj+"/";
+							mPos.destinationName = topicPosition;
+							client.send(mPos);
+						}
+						if(obj.color!="null"){
+							stringClr = '{ "color":"'+obj.color+'"}';
+							mClr = new Paho.MQTT.Message(stringClr);
+							var topicPosition = "templateGeo/obj/position/"+idObj+"/";
+							mClr.destinationName = topicColor;
+							client.send(mClr);
+						}
+						if(obj.scale!="null"){
+							stringScl = '{ "scale":"'+obj.scale+'"}';
+							mScl = new Paho.MQTT.Message(stringScl);
+							var topicScale = "templateGeo/obj/scale/"+idObj+"/";
+							mScl.destinationName = topicScale;
+							client.send(mScl);
+						}
+						if(obj.select=="1"){
+							mSlc = new Paho.MQTT.Message('');
+							var topicSelect = "templateGeo/obj/select/"+idObj+"/";
+							mSlc.destinationName = topicSelect;
+							client.send(mSlc);
 						}
 						break;
 					case "position":
