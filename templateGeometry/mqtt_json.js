@@ -110,7 +110,7 @@ client.onMessageArrived = function (message) {
 
 						break;
 					case "position":
-						var idObj=splitTopic[3];
+						var idObj=parseInt(splitTopic[3]);
 						console.log("Position");
 						console.log("ID : "+idObj);
 						console.log("Positions :"+msg);
@@ -121,21 +121,21 @@ client.onMessageArrived = function (message) {
 						setPosition(idObj,vx,vy,vz);
 						break;
 					case "scale":
-					  var idObj=splitTopic[3];
+					  var idObj=parseInt(splitTopic[3]);
 						console.log("Scale");
 						console.log("ID : "+idObj);
 						console.log("Echelle :"+msg);
 						setScale(idObj,msg);
 						break;
 					case "color":
-						var idObj=splitTopic[3];
+						var idObj=parseInt(splitTopic[3]);
 						console.log("Color");
 						console.log("ID : "+idObj);
 						console.log("Color :"+msg);
 						setColor(idObj,msg);
 						break;
 					case "select":
-						var idObj=splitTopic[3];
+						var idObj=parseInt(splitTopic[3]);
 						console.log("Select");
 						console.log("ID : "+idObj);
 						selectObject(idObj,lastSelect);
