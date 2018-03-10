@@ -11,7 +11,7 @@ function setScale(id2, val) {
 
 function setColor(id3, val) {
     var object = sac3DObject.getObjectById(id3);
-    object.material.color.setHex(val.replace("#", "0x"));
+    object.material.color.setHex(val);
 }
 
 function deleteElement(id3) {

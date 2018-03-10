@@ -1,6 +1,5 @@
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"templateGeo");
 client.connect({userName : "ptut",password : "ptut",onSuccess:onConnect});
-var cpt = 0;
 client.onConnectionLost = function (responseObject){
 	console.log("Connection perdue: "+responseObject.errorMessage);
 }
@@ -68,7 +67,6 @@ client.onMessageArrived = function (message) {
 						msage = new Paho.MQTT.Message(''+id);
 						msage.destinationName = "templateGeo/retourID/";
 						client.send(msage);
-						cpt = cpt + 1;
 						break;
 					case "delete":
 						var idObj=parseInt(splitTopic[3]);
@@ -77,7 +75,7 @@ client.onMessageArrived = function (message) {
 						deleteElement(idObj);
 						break;
 					case "json":
-						var idObj=splitTopic[3];
+						var idObj=parseInt(splitTopic[3]);
 						console.log("JSON PARSE");
 						console.log("ID : "+idObj);
 						console.log("MSSAGE :"+msg);
