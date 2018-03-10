@@ -1,7 +1,6 @@
 function setPosition(id1, valx, valy, valz) {
     //console.log(id);
     var object = sac3DObject.getObjectById(sac3DObject.children[id1].id);
-    console.log(object);
     object.position.set(valx, valy, valz);
 }
 
