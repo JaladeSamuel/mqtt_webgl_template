@@ -1,4 +1,5 @@
-function retablirMenu(valSc, valx, valy, valz) {
+function retablirMenu(id0,valSc, valx, valy, valz) {
+    options.id = id0;
     options.scale = valSc;
     options.x = valx;
     options.y = valy;
@@ -6,7 +7,7 @@ function retablirMenu(valSc, valx, valy, valz) {
 }
 
 function resetMenu(idObjectSelection) {
-    options.id = idObjectSelection;
+    options.ids = idObjectSelection;
     options.scale = 1;
     options.x = 0;
     options.y = 0;
@@ -97,7 +98,7 @@ function menuUpdate(idObjectSelection) {
         deleteElement(idObjectSelection);
     });
     if ((object.position.x !== 0) || (object.position.y !== 0) || (object.position.z !== 0) || (object.scale.x !== 1)) {
-        retablirMenu(object.scale.x, object.position.x, object.position.y, object.position.z);
+        retablirMenu(idObjectSelection,iobject.scale.x, object.position.x, object.position.y, object.position.z);
         menuP.open();
     } else {
         resetMenu(idObjectSelection);
