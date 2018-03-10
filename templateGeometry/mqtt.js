@@ -44,6 +44,10 @@ client.onMessageArrived = function (message) {
 						case "Point" :
 							AjoutObjectGeometry("PointGeometry");
 							break;
+						case "Line" :
+							var id = AjoutObjectGeometry("LineGeometry");
+							break;
+						}
 					}
 					//Retour de l'ID en MQTT
 					//a faire
