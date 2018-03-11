@@ -23,7 +23,8 @@ client.onMessageArrived = function(message) {
     var splitTopic = destination.split("/");
     if (splitTopic[1] == "retourID") {
         console.log("Arrivé d'un ID apres création");
-        console.log("ID :" + msg);
+          obj = JSON.parse(msg);
+        console.log("ID :" + obj.id);
     } else if (splitTopic[1] == "scene") {
         obj = JSON.parse(msg);
         console.log("Scene");
@@ -102,7 +103,7 @@ client.onMessageArrived = function(message) {
                 }
 
                 console.log("PUSH ID on TOPIC : templateGeo/retourID/");
-                msage = new Paho.MQTT.Message('' + id);
+                msage = new Paho.MQTT.Message('{ "id":"'+id+'" }');
                 msage.destinationName = "templateGeo/retourID/";
                 client.send(msage);
                 break;
