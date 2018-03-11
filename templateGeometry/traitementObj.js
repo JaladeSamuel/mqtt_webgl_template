@@ -20,12 +20,16 @@ function deleteElement(id3) {
     var object = sac3DObject.getObjectById(id3);
     object.geometry.dispose();
     sac3DObject.remove(object);
-   	if (sac3DObject.children.length !== 0) {
-   		console.log(sac3DObject.children[0].id);
-        menuUpdate(sac3DObject.children[0].id);
-    } else {
-        menuP.close();
-    }
+    console.log(SELECTED != null);
+    if(SELECTED != null){
+       	    if (sac3DObject.children.length !== 0) {
+       		   console.log(sac3DObject.children[0].id);
+              console.log(menuP);
+              menuUpdate(sac3DObject.children[0].id);
+        } else {
+            menuP.close();
+        }
+      }
 }
 
 function positionScene(axe,number){
