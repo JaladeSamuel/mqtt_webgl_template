@@ -46,7 +46,6 @@ client.onMessageArrived = function(message) {
                 obj = JSON.parse(msg);
                 console.log("Create");
                 console.log("Objet : " + msg);
-                console.log("ID de l'objet : " + cpt);
                 switch (obj.shape) {
                     case "Cube":
                         var id = AjoutObjectGeometry("BoxGeometry");
@@ -64,12 +63,12 @@ client.onMessageArrived = function(message) {
                         var id = AjoutObjectGeometry("LineGeometry");
                         break;
                 }
-                client.subscribe("templateGeo/obj/delete/" + cpt + "/");
-                client.subscribe("templateGeo/obj/position/" + cpt + "/");
-                client.subscribe("templateGeo/obj/scale/" + cpt + "/");
-                client.subscribe("templateGeo/obj/color/" + cpt + "/");
-                client.subscribe("templateGeo/obj/select/" + cpt + "/");
-                client.subscribe("templateGeo/obj/json/" + cpt + "/");
+                client.subscribe("templateGeo/obj/delete/" + id + "/");
+                client.subscribe("templateGeo/obj/position/" + id + "/");
+                client.subscribe("templateGeo/obj/scale/" + id + "/");
+                client.subscribe("templateGeo/obj/color/" + id + "/");
+                client.subscribe("templateGeo/obj/select/" + id + "/");
+                client.subscribe("templateGeo/obj/json/" + id + "/");
                 if (obj.position != "null") {
                     tabpos = obj.position.split(",");
                     console.log("x  " + tabpos[0]);
@@ -77,42 +76,41 @@ client.onMessageArrived = function(message) {
                     console.log("z  " + tabpos[2]);
                     stringPos = '{ "position_x":"' + tabpos[0] + '","position_y":"' + tabpos[1] + '","position_z":"' + tabpos[2] + '"}';
                     mPos = new Paho.MQTT.Message(stringPos);
-                    var topicPosition = "templateGeo/obj/position/" + cpt + "/";
+                    var topicPosition = "templateGeo/obj/position/" + id + "/";
                     mPos.destinationName = topicPosition;
                     client.send(mPos);
                 }
                 if (obj.color != "null") {
                     stringClr = '{ "color":"' + obj.color + '"}';
                     mClr = new Paho.MQTT.Message(stringClr);
-                    var topicColor = "templateGeo/obj/position/" + cpt + "/";
+                    var topicColor = "templateGeo/obj/color/" + id + "/";
                     mClr.destinationName = topicColor;
                     client.send(mClr);
                 }
                 if (obj.scale != "null") {
                     stringScl = '{ "scale":"' + obj.scale + '"}';
                     mScl = new Paho.MQTT.Message(stringScl);
-                    var topicScale = "templateGeo/obj/scale/" + cpt + "/";
+                    var topicScale = "templateGeo/obj/scale/" + id + "/";
                     mScl.destinationName = topicScale;
                     client.send(mScl);
                 }
                 if (obj.select == "1") {
                     mSlc = new Paho.MQTT.Message('');
-                    var topicSelect = "templateGeo/obj/select/" + cpt + "/";
+                    var topicSelect = "templateGeo/obj/select/" + id + "/";
                     mSlc.destinationName = topicSelect;
                     client.send(mSlc);
                 }
 
                 console.log("PUSH ID on TOPIC : templateGeo/retourID/");
-                msage = new Paho.MQTT.Message('' + cpt);
+                msage = new Paho.MQTT.Message('' + id);
                 msage.destinationName = "templateGeo/retourID/";
                 client.send(msage);
-                cpt = cpt + 1;
                 break;
             case "delete":
                 var idObj = splitTopic[3];
                 console.log("Delete");
                 console.log("ID : " + idObj);
-                deleteElement(idObj);
+                deleteElement(parseInt(idObj));
                 break;
             case "json":
                 var idObj = splitTopic[3];
@@ -161,7 +159,7 @@ client.onMessageArrived = function(message) {
                 var vx = obj.position_x;
                 var vy = obj.position_y;
                 var vz = obj.position_z;
-                setPosition(idObj, vx, vy, vz);
+                setPosition(parseInt(idObj), vx, vy, vz);
                 break;
             case "scale":
                 var idObj = splitTopic[3];
@@ -170,22 +168,22 @@ client.onMessageArrived = function(message) {
                 console.log("ID : " + idObj);
                 console.log("Echelle :" + obj);
                 var scaling = obj.scale;
-                setScale(idObj, scaling);
+                setScale(parseInt(idObj), scaling);
                 break;
             case "color":
                 var idObj = splitTopic[3];
                 obj = JSON.parse(msg);
                 console.log("Color");
                 console.log("ID : " + idObj);
-                console.log("Color :" + obj);
+                console.log("Color :" + obj.color);
                 var couleur = obj.color;
-                setColor(idObj, couleur);
+                setColor(parseInt(idObj), couleur);
                 break;
             case "select":
                 var idObj = splitTopic[3];
                 console.log("Select");
                 console.log("ID : " + idObj);
-                selectObject(idObj, lastSelect);
+                selectObject(parseInt(idObj), lastSelect);
                 break;
         }
     }

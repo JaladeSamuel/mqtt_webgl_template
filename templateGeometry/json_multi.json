@@ -1,6 +1,6 @@
 {
-	"color":"#FF5500",
-	"position":"200,200,200",
-	"scale":"2",
+	"color":"0x00FF55",
+	"position":"-50,200,-50",
+	"scale":"0.5",
 	"select":"0"
 }
