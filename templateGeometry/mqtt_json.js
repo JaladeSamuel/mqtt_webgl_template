@@ -132,7 +132,7 @@ client.onMessageArrived = function(message) {
                 if (obj.color != "null") {
                     stringClr = '{ "color":"' + obj.color + '"}';
                     mClr = new Paho.MQTT.Message(stringClr);
-                    var topicPosition = "templateGeo/obj/position/" + idObj + "/";
+                    var topicColor = "templateGeo/obj/color/" + idObj + "/";
                     mClr.destinationName = topicColor;
                     client.send(mClr);
                 }
