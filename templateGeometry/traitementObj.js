@@ -6,7 +6,13 @@ function setPosition(id1, valx, valy, valz) {
 
 function setScale(id2, val) {
     var object = sac3DObject.getObjectById(id2);
-    object.scale.set(val, val, val);
+    if(object.material.type=="PointsMaterial"){
+      object.material.size = val;
+    }else{
+      console.log(object.geometry);
+      object.scale.set(val, val, val);
+      console.log(object.geometry);
+    }
 }
 
 function setColor(id3, val) {
@@ -15,16 +21,11 @@ function setColor(id3, val) {
 }
 
 function deleteElement(id3) {
-  console.log(id3);
-  console.log(sac3DObject);
     var object = sac3DObject.getObjectById(id3);
     object.geometry.dispose();
     sac3DObject.remove(object);
-    console.log(SELECTED != null);
     if(SELECTED != null){
        	    if (sac3DObject.children.length !== 0) {
-       		   console.log(sac3DObject.children[0].id);
-              console.log(menuP);
               menuUpdate(sac3DObject.children[0].id);
         } else {
             menuP.close();

@@ -3,12 +3,10 @@ function AjoutObjectGeometry(valEnvoi) {
     if (valEnvoi == 'PointGeometry') {
         geometry.vertices.push(new THREE.Vector3(0, 0, 0));
         var material = new THREE.PointsMaterial({
-            color: 0xffff00,
-            size: 100
+            color: 0xffffff,
+            size: 5
         });
         mesh = new THREE.Points(geometry, material);
-        console.log(sac3DObject);
-        console.log(mesh);
         sac3DObject.add(mesh);
     }else if(valEnvoi == 'LineGeometry'){
         geometry.vertices.push(
@@ -16,13 +14,13 @@ function AjoutObjectGeometry(valEnvoi) {
             new THREE.Vector3( 500, 0, 0 )
         );
         var material = new THREE.LineBasicMaterial({
-            color: 0xffff00
+            color: 0xffffff
         });
         mesh = new THREE.Line( geometry, material );
         sac3DObject.add(mesh);
     } else {
         var material = new THREE.MeshBasicMaterial({
-            color: 0xffff00,
+            color: 0xffffFF,
             wireframe: false
         });
         mesh = new THREE.Mesh(geometry, material);
