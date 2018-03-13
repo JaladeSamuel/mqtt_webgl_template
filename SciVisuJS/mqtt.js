@@ -13,8 +13,8 @@ client.onConnectionLost = function(responseObject) {
 function onConnect() {
     console.log("Connecte");
     client.subscribe(idClient+"/obj/create/");
-    client.subscribe("templateGeo/retourID/");
-    client.subscribe("templateGeo/scene/");
+    client.subscribe(idClient+"/retourID/");
+    client.subscribe(idClient+"/scene/");
 }
 
 client.onMessageArrived = function(message) {
