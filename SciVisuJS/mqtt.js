@@ -1,6 +1,4 @@
-idClient = "web_" + parseInt(Math.random() * 100, 10)
-client = new Paho.MQTT.Client("91.224.148.106", Number(2533),idClient);
-
+client = new Paho.MQTT.Client("91.224.148.106", Number(2533), "templateGeo");
 client.connect({
     userName: "ptut",
     password: "ptut",
@@ -13,7 +11,7 @@ client.onConnectionLost = function(responseObject) {
 function onConnect() {
     console.log("Connecte");
     client.subscribe("templateGeo/obj/create/");
-    client.subscribe(idClient+"/retourID/");
+    client.subscribe("templateGeo/retourID/");
     client.subscribe("templateGeo/scene/");
 }
 
@@ -79,34 +77,34 @@ client.onMessageArrived = function(message) {
                     console.log("z  " + tabpos[2]);
                     stringPos = '{ "position_x":"' + tabpos[0] + '","position_y":"' + tabpos[1] + '","position_z":"' + tabpos[2] + '"}';
                     mPos = new Paho.MQTT.Message(stringPos);
-                    var topicPosition = idClient+"/obj/position/" + id + "/";
+                    var topicPosition = "templateGeo/obj/position/" + id + "/";
                     mPos.destinationName = topicPosition;
                     client.send(mPos);
                 }
                 if (obj.color != "null") {
                     stringClr = '{ "color":"' + obj.color + '"}';
                     mClr = new Paho.MQTT.Message(stringClr);
-                    var topicColor = idClient+"/obj/color/" + id + "/";
+                    var topicColor = "templateGeo/obj/color/" + id + "/";
                     mClr.destinationName = topicColor;
                     client.send(mClr);
                 }
                 if (obj.scale != "null") {
                     stringScl = '{ "scale":"' + obj.scale + '"}';
                     mScl = new Paho.MQTT.Message(stringScl);
-                    var topicScale = idClient+"/obj/scale/" + id + "/";
+                    var topicScale = "templateGeo/obj/scale/" + id + "/";
                     mScl.destinationName = topicScale;
                     client.send(mScl);
                 }
                 if (obj.select == "1") {
                     mSlc = new Paho.MQTT.Message('');
-                    var topicSelect = idClient+"/obj/select/" + id + "/";
+                    var topicSelect = "templateGeo/obj/select/" + id + "/";
                     mSlc.destinationName = topicSelect;
                     client.send(mSlc);
                 }
 
                 console.log("PUSH ID on TOPIC : templateGeo/retourID/");
                 msage = new Paho.MQTT.Message('{ "id":"'+id+'" }');
-                msage.destinationName = idClient+"/retourID/";
+                msage.destinationName = "templateGeo/retourID/";
                 client.send(msage);
                 break;
             case "delete":
