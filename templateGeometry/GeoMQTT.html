@@ -38,9 +38,7 @@
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/create/{Cube|Sphere|Plan|Point}
-retour de l'ID de l'objet créé sur le topic "templateGeo/ID/"
-→ A recupérer pour pouvoir modifier l'objet par la suite
+
               </code>
            </pre>
          </div>
@@ -49,7 +47,7 @@ retour de l'ID de l'objet créé sur le topic "templateGeo/ID/"
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/position/{{id}/{x,y,z}}
+
               </code>
            </pre>
          </div>
@@ -58,7 +56,7 @@ topic : templateGeo/obj/position/{{id}/{x,y,z}}
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/scale/{{id}/{x}}
+
               </code>
            </pre>
          </div>
@@ -67,7 +65,7 @@ topic : templateGeo/obj/scale/{{id}/{x}}
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/color/{{id}/{#Color en Hexa}}
+
               </code>
            </pre>
          </div>
@@ -76,7 +74,7 @@ topic : templateGeo/obj/color/{{id}/{#Color en Hexa}}
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/delete/{id}
+
               </code>
            </pre>
          </div>
@@ -85,7 +83,7 @@ topic : templateGeo/obj/delete/{id}
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/obj/select/{id}
+
               </code>
            </pre>
          </div>
@@ -93,8 +91,7 @@ topic : templateGeo/obj/select/{id}
         <div class="panel" style="background-color: #000000;">
            <pre>
               <code class="js">
-topic : templateGeo/scene/{{x|y|z}/{nombre}}
-topic : templateGeo/scene/{rotate/{on|off}}
+
               </code>
            </pre>
          </div>
@@ -110,10 +107,8 @@ topic : templateGeo/scene/{rotate/{on|off}}
 		PTUT SciVisu - Template Géometrie
 	</div>
 	<div id="container" style="width: 640px; height: 480px; background-color: #000000;"></div>
-	<script src="init.js"></script>
-	<script src="menu.js"></script>
-	<script src="ajoutObj.js"></script>
-	<script src="traitementObj.js"></script>
-	<script src="mqtt_json.js"></script>
+	<script src="../SciVisuJS/init.js"></script>
+	<script src="../SciVisuJS/obj.js"></script>
+	<script src="../SciVisuJS/mqtt.js"></script>
 </body>
 </html>
