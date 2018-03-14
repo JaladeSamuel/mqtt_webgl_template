@@ -41,7 +41,7 @@
 Pour créer un objet, il faut utiliser le topic :
  templateGeo/obj/create/
 
-Et envoyé comme message :            Ou pour une forme plus définit :
+Et envoyer comme message :          Ou pour une forme plus définie :
  {                               |{
 	 "shape":"Cube",               |  "shape":"Cube",
 	 "color":"null",               |  "color":"FF5500",
@@ -57,9 +57,9 @@ Le champ "shape" peut prendre les valeurs:
  Point
  Line
 
-Et vous pouvez aussi initialiser plusieurs éléments à la création d’un objet:
- la couleur, la position et la taille de l’objet. On peut également choisir de
- sélectionner l’objet en mettant le champ "select" à la valeur "1".
+Vous pouvez aussi initialiser plusieurs éléments à la création d’un objet:
+la couleur, la position et la taille de l’objet. On peut également choisir de
+sélectionner l’objet en mettant le champ "select" à la valeur "1".
 
 						 </code>
            </pre>
@@ -72,16 +72,16 @@ Et vous pouvez aussi initialiser plusieurs éléments à la création d’un obj
 Pour changer la position d’un objet, il faut utiliser le topic :
  templateGeo/obj/position/{id de l’objet}
 
-Et envoyé comme message :
+Et envoyer comme message :
  {
 	 "position_x":"200",
 	 "position_y":"200",
 	 "position_z":"200",
  }
 
-La numérotation des IDs ne commence pas automatique à 0. Après la création d’un objet,
-un message est envoyé sur le topic templateGeo/retourID/ qui permet de récupérer
-l’ID de l’objet.
+La numérotation des IDs ne commence pas automatiquement à 0. Après la création
+d’un objet, un message est envoyé sur le topic templateGeo/retourID/ qui permet
+de récupérer l’ID de l’objet.
 
 						 </code>
            </pre>
@@ -94,7 +94,7 @@ l’ID de l’objet.
 Pour changer la taille d’un objet, il faut utiliser le topic :
  templateGeo/obj/scale/{id de l’objet}/
 
-Et envoyé comme message :
+Et envoyer comme message :
  {
 	 "scale":"2"
  }
@@ -114,7 +114,7 @@ Vous devez utiliser l’ID de l’objet retourné par la méthode de création.
 Pour changer la couleur d’un objet, il faut utiliser le topic :
  templateGeo/obj/color/{id de l’objet}/
 
-Et envoyé comme message :
+Et envoyer comme message :
  {
 	 "color":"FF5500"
  }
@@ -138,8 +138,8 @@ Pour supprimer un objet, il faut utiliser le topic :
 Aucun message n’est nécessaire, le simple envoie d’un message vide sur le topic
 permet de sélectionner l’objet.
 
-La suppression d’un objet permet de le retirer de la scène. Les IDs des autres objets
-ne changent pas.
+La suppression d’un objet permet de le retirer de la scène. Les IDs des autres
+objets ne changent pas.
 
 						 </code>
            </pre>
@@ -169,7 +169,7 @@ Cette commande ouvre un panneau de modification manuelle
 Pour changer la scène, il faut utiliser le topic :
 templateGeo/scene/
 
-Et envoyé comme message :
+Et envoyer comme message :
  {
 	 "x":"0",
 	 "y":"0",
@@ -178,8 +178,8 @@ Et envoyé comme message :
  }
 
 Les positions pouvant être changées correspondent à la place de la caméra sur la
-scène. Elle est de base aux positions (0,0,1000). On mettra une valeur "null" pour
-ne pas modifier la valeur actuelle
+scène. Elle est de base aux positions (0,0,1000). On mettra une valeur "null"
+pour ne pas modifier la valeur actuelle
 						 </code>
            </pre>
          </div>
