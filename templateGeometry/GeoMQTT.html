@@ -37,62 +37,150 @@
       <button class="accordion">Create</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
-              <code class="js">
-								
-              </code>
+						 <code class="js">
+Pour créer un objet, il faut utiliser le topic :
+ templateGeo/obj/create/
+
+Et envoyé comme message :            Ou pour une forme plus définit :
+ {                               |{
+	 "shape":"Cube",               |  "shape":"Cube",
+	 "color":"null",               |  "color":"FF5500",
+	 "position":"null",            |  "position":"200,200,200",
+	 "scale":"null",               |  "scale":"2",
+	 "select":"0"                  |  "select":"0"
+ }                               |}
+
+Le champ "shape" peut prendre les valeurs:
+ Cube
+ Sphere
+ Plan
+ Point
+ Line
+
+Et vous pouvez aussi initialiser plusieurs éléments à la création d’un objet:
+ la couleur, la position et la taille de l’objet. On peut également choisir de
+ sélectionner l’objet en mettant le champ "select" à la valeur "1".
+
+						 </code>
            </pre>
          </div>
 
 	   <button class="accordion">Position</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
-              <code class="js">
+						 <code class="js">
+Pour changer la position d’un objet, il faut utiliser le topic :
+ templateGeo/obj/position/{id de l’objet}
 
-              </code>
+Et envoyé comme message :
+ {
+	 "position_x":"200",
+	 "position_y":"200",
+	 "position_z":"200",
+ }
+
+La numérotation des IDs ne commence pas automatique à 0. Après la création d’un objet,
+un message est envoyé sur le topic templateGeo/retourID/ qui permet de récupérer
+l’ID de l’objet.
+
+						 </code>
            </pre>
          </div>
 
 		<button class="accordion">Size</button>
         <div class="panel" style="background-color: #000000;">
            <pre>d
-              <code class="js">
+						 <code class="js">
+Pour changer la taille d’un objet, il faut utiliser le topic :
+ templateGeo/obj/scale/{id de l’objet}/
 
-              </code>
+Et envoyé comme message :
+ {
+	 "scale":"2"
+ }
+
+Pour un cube crée sans argument, cet exemple va doubler la taille de notre objet.
+La numérotation des IDs ne commence pas automatique à 0.
+Vous devez utiliser l’ID de l’objet retourné par la méthode de création.
+
+						 </code>
            </pre>
          </div>
 
 		<button class="accordion">Color</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
-              <code class="js">
+						 <code class="js">
+Pour changer la couleur d’un objet, il faut utiliser le topic :
+ templateGeo/obj/color/{id de l’objet}/
 
-              </code>
+Et envoyé comme message :
+ {
+	 "color":"FF5500"
+ }
+
+La couleur doit être exprimé en Hexadécimal, précédé de # ou 0x
+
+La numérotation des IDs ne commence pas automatique à 0.
+Vous devez utiliser l’ID de l’objet retourné par la méthode de création.
+
+						 </code>
            </pre>
          </div>
 
 		<button class="accordion">Delete</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
-              <code class="js">
+						 <code class="js">
+Pour supprimer un objet, il faut utiliser le topic :
+ templateGeo/obj/delete/{id de l’objet}/
 
-              </code>
+Aucun message n’est nécessaire, le simple envoie d’un message vide sur le topic
+permet de sélectionner l’objet.
+
+La suppression d’un objet permet de le retirer de la scène. Les IDs des autres objets
+ne changent pas.
+
+						 </code>
            </pre>
          </div>
 
 		<button class="accordion">Select</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
-              <code class="js">
+						 <code class="js">
+Pour sélectionner un objet, il faut utiliser le topic :
+ templateGeo/obj/select/{id de l’objet}/
 
-              </code>
+Aucun message n’est nécessaire, le simple envoie d’un message vide sur le topic
+permet de sélectionner l’objet.
+
+La sélection d’un objet peut aussi se faire avec un clic souris sur l’objet.
+
+Cette commande ouvre un panneau de modification manuelle
+
+						 </code>
            </pre>
          </div>
 		<button class="accordion">Scene</button>
         <div class="panel" style="background-color: #000000;">
            <pre>
-              <code class="js">
+						 <code class="js">
+Pour changer la scène, il faut utiliser le topic :
+templateGeo/scene/
 
-              </code>
+Et envoyé comme message :
+ {
+	 "x":"0",
+	 "y":"0",
+	 "z":"0",
+	 "rotate":"on"
+ }
+
+Les positions pouvant être changées correspondent à la place de la caméra sur la
+scène. Elle est de base aux positions (0,0,1000). On mettra une valeur "null" pour
+ne pas modifier la valeur actuelle
+						 </code>
            </pre>
          </div>
 				 <a href="../index.nginx-debian.html">Accueil</a>
