@@ -67,14 +67,14 @@ function AjoutObjectGeometry(valEnvoi) {
         geometry.vertices.push(new THREE.Vector3(0, 0, 0));
         var material = new THREE.PointsMaterial({
             color: 0xffffff,
-            size: 5
+            size: 100
         });
         mesh = new THREE.Points(geometry, material);
         sac3DObject.add(mesh);
     }else if(valEnvoi == 'LineGeometry'){
         geometry.vertices.push(
-            new THREE.Vector3( -500, 0, 0 ),
-            new THREE.Vector3( 500, 0, 0 )
+            new THREE.Vector3( -50, 0, 0 ),
+            new THREE.Vector3( 50, 0, 0 )
         );
         var material = new THREE.LineBasicMaterial({
             color: 0xffffff
@@ -83,7 +83,7 @@ function AjoutObjectGeometry(valEnvoi) {
         sac3DObject.add(mesh);
     } else {
         var material = new THREE.MeshBasicMaterial({
-            color: 0xffffFF,
+            color: 0xffffff,
             wireframe: false
         });
         mesh = new THREE.Mesh(geometry, material);
@@ -101,7 +101,7 @@ function TrouverGeometrieCorres(vEnvoi) {
         },
         {
             type: 'SphereGeometry',
-            geometry: new THREE.SphereGeometry(100, 12, 12)
+            geometry: new THREE.SphereGeometry(200, 12, 12)
         },
         {
             type: 'PlaneGeometry',
@@ -143,28 +143,29 @@ function resetMenu(idObjectSelection) {
     options.z = 0;
 }
 
-function resetElement(idObjectSelection) {
+function resetElement(idObject) {
+	console.log(idObject);
     options.scale = 1;
     options.x = 0;
     options.y = 0;
     options.z = 0;
-    setScale(idObjectSelection, options.scale)
-    setPosition(idObjectSelection, options.x, options.y, options.z)
-    setColor(idObjectSelection, 0xffff00);
+    setScale(idObject, options.scale)
+    setPosition(idObject, options.x, options.y, options.z)
+    setColor(idObject, 0xffffff);
 }
 
 function selectObject(id) {
     console.log(id);
     var object = sac3DObject.getObjectById(id);
-
+    var couleur = object.material.colors
     if (SELECTED !== object) {
-        if (SELECTED) SELECTED.material.color.set(0xff0000);
+        if (SELECTED) SELECTED.material.color.set(couleur);//couleur apres selection
         SELECTED = object;
-        idObjectSelection = id;
-        options.ids = idObjectSelection;
-        SELECTED.material.color.set(0xffffff);
+        
+        SELECTED.material.color.set(0x16BBDC);
     }
-
+    idObjectSelection = id;
+    options.ids = idObjectSelection;
     menuOnSelectGeometry(idObjectSelection);
 }
 
@@ -174,29 +175,15 @@ var sc, x, y, z, detruire,rst, idm;
 function menuOnSelectGeometry(idObjectSelection) {
 
     if (menuP.__controllers.length == 0) {
-        idm = menuP.add(options, 'ids').listen().onChange(function(value) {
-            options.ids = idObjectSelection
-        });
-        sc = menuP.add(options, 'scale').min(0.1).max(4).listen().onChange(function(value) {
-            console.log(idObjectSelection);
-            setScale(idObjectSelection, options.scale);
-        });
-        x = menuP.add(options, 'x').min(-900).max(900).listen().onChange(function(value) {
-            setPosition(idObjectSelection, options.x, options.y, options.z);
-        });
-        y = menuP.add(options, 'y').min(-900).max(900).listen().onChange(function(value) {
-            setPosition(idObjectSelection, options.x, options.y, options.z);
-        });
-        z = menuP.add(options, 'z').min(-900).max(900).listen().onChange(function(value) {
-            setPosition(idObjectSelection, options.x, options.y, options.z);
-        });
-        rst = menuP.add(options, 'reset').name("Reset Element").listen().onChange(function(value) {
-            resetElement(idObjectSelection);
-        });
-        detruire = menuP.add(options, 'detruire').name("detruire").listen().onChange(function(value) {
-            deleteElement(idObjectSelection);
-        });
+        idm = menuP.add(options, 'ids').listen()
+        sc = menuP.add(options, 'scale').min(0.1).max(4).listen()
+        x = menuP.add(options, 'x').min(-900).max(900).listen()
+        y = menuP.add(options, 'y').min(-900).max(900).listen()
+        z = menuP.add(options, 'z').min(-900).max(900).listen()
+        rst = menuP.add(options, 'reset').name("Reset Element").listen()
+        detruire = menuP.add(options, 'detruire').name("detruire").listen()
         menuP.open();
+        menuUpdate(idObjectSelection);
     } else {
         menuUpdate(idObjectSelection);
     }
@@ -223,6 +210,9 @@ function menuUpdate(idObjectSelection) {
     z.onChange(function(value) {
         setPosition(idObjectSelection, options.x, options.y, options.z);
     });
+    rst.onChange(function(value) {
+            resetElement(idObjectSelection);
+        });
     detruire.onChange(function(value) {
         deleteElement(idObjectSelection);
     });
