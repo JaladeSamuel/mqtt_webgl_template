@@ -2,6 +2,11 @@ var bool, cpt, str;
 
 //Création du client MQTT
 client = new Paho.MQTT.Client("91.224.148.106", Number(2533),"receiveJSON");
+client.connect({
+    userName: "ptut",
+    password: "ptut",
+    onSuccess: onConnect
+});
 
 //Initisalition des variables utiles
 bool=true;
